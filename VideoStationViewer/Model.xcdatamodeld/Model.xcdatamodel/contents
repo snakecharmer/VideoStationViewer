@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Xcode 7.0">
+    <entity name="Genre" representedClassName=".Genre" syncable="YES">
+        <attribute name="genre" attributeType="String" indexed="YES" syncable="YES"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovieSummary" inverseName="genres" inverseEntity="MovieSummary" syncable="YES"/>
+    </entity>
+    <entity name="MovieDetail" representedClassName=".MovieDetail" syncable="YES">
+        <attribute name="cast" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="certificate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="director" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="fileId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastWatched" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="releaseYear" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" syncable="YES"/>
+    </entity>
+    <entity name="MovieSummary" representedClassName=".MovieSummary" syncable="YES">
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovieDetail" syncable="YES"/>
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="movies" inverseEntity="Genre" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Genre" positionX="-153" positionY="-280" width="128" height="73"/>
+        <element name="MovieDetail" positionX="-927" positionY="-324" width="128" height="225"/>
+        <element name="MovieSummary" positionX="-713" positionY="-405" width="128" height="103"/>
+    </elements>
+</model>
