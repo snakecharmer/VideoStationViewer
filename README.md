@@ -7,4 +7,6 @@ After the application has reached a point you could give it to your grandmother 
 
 To ask questions then goto Slack https://videostationviewer.slack.com/ or find me on twitter @ztolley
 
+
+
 There is a private Jira server being used for scheduling work and setting priorities but this may change to Github if others get involved.
