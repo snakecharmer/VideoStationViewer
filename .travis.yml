@@ -1,0 +1,9 @@
+language: objective-c
+osx_image: xcode7.2
+xcode_workspace: VideoStationViewer.xcworkspace
+xcode_scheme: VideoStationViewer
+xcode_sdk: appletvsimulator
+
+notifications:
+  slack: 'videostationviewer:i8Cnsa8djFf7zaYTRBC1xYnU'
+  email: false
