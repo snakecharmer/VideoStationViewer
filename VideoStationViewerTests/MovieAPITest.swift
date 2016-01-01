@@ -30,8 +30,6 @@ class MovieAPITest: XCTestCase {
             XCTAssertEqual(url.path!, "/webapi/VideoStation/movie.cgi")
             XCTAssertEqual(url.host!, "test.com")
             XCTAssertEqual(url.port!, 5000)
-            
-            expectation.fulfill()
             return true
             
             }, withStubResponse: { (request: NSURLRequest) -> OHHTTPStubsResponse in
@@ -40,7 +38,7 @@ class MovieAPITest: XCTestCase {
         })
         
 		self.movieAPI.getMovieTitles { (movies, total, offset,error) -> Void in
-			
+			expectation.fulfill()
 		}
 		
 		self.waitForExpectationsWithTimeout(500, handler: {
@@ -71,9 +69,7 @@ class MovieAPITest: XCTestCase {
             } else {
                 XCTFail()
             }
-            
-            expectation.fulfill()
-            
+			
             return true
             
             }, withStubResponse: { (request: NSURLRequest) -> OHHTTPStubsResponse in
@@ -82,7 +78,7 @@ class MovieAPITest: XCTestCase {
         })
         
         self.movieAPI.getMovieTitles { (movies, total, offset,error) -> Void in
-            
+			expectation.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(500, handler: {
@@ -130,15 +126,16 @@ class MovieAPITest: XCTestCase {
     
     func testGetMovieCallsCorrectUrl() {
         let expectation = self.expectationWithDescription("testGetMovieCallsCorrectUrl")
-        
+		
+		
+		NSLog(" **********************************")
+		
         OHHTTPStubs.stubRequestsPassingTest({ (request: NSURLRequest) -> Bool in
             
             let url = request.URL!
             XCTAssertEqual(url.path!, "/webapi/VideoStation/movie.cgi")
             XCTAssertEqual(url.host!, "test.com")
             XCTAssertEqual(url.port!, 5000)
-            
-            expectation.fulfill()
             return true
             
             }, withStubResponse: { (request: NSURLRequest) -> OHHTTPStubsResponse in
@@ -148,9 +145,10 @@ class MovieAPITest: XCTestCase {
         
         
         self.movieAPI.getMovie(100) { (movie, error) -> Void in
-            // wont reach here
+			NSLog(" ---------------------------------------")
+			expectation.fulfill()
         }
-        
+		
         self.waitForExpectationsWithTimeout(500, handler: {
             error in XCTAssertNil(error, "Oh, we got timeout")
         })
@@ -172,9 +170,7 @@ class MovieAPITest: XCTestCase {
             } else {
                 XCTFail()
             }
-            
-            expectation.fulfill()
-            
+
             return true
             
         }, withStubResponse: { (request: NSURLRequest) -> OHHTTPStubsResponse in
@@ -183,7 +179,7 @@ class MovieAPITest: XCTestCase {
         })
         
         self.movieAPI.getMovie(100) { (movie, error) -> Void in
-            // wont reach here
+			expectation.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(500, handler: {
