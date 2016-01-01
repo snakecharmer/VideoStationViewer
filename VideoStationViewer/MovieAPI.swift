@@ -24,7 +24,7 @@ class MovieAPI
 			"limit": "\(limit)",
 			"sort_by": sortBy,
 			"sort_direction": "desc",
-			"additional": "[\"genre\"]",
+			"additional": "[\"genre\",\"summary\"]",
 			"library_id": "0"
 		]
 		
@@ -53,12 +53,68 @@ class MovieAPI
 				let json = JSON(data: jsonData)
 				
 				if let jsonArray = json["data"]["movies"].array {
-					let movies:[SynologyMediaItem] = self.makeMovies(jsonArray)
+					let movies:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
 					var total = 0;
 					if let totalValue = json["data"]["total"].int {
 						total = totalValue
 					}
 					success(movies: movies, total: total, offset: offset, error: nil)
+					return
+				}
+				
+				returnError()
+		}
+	}
+	
+	func getTVTitles(offset:Int=0, genre:String? = nil, limit:Int=99999, sortBy:String="added",
+		success: ((shows: [SynologyMediaItem]?, total: Int, offset: Int, error: NSError?) -> Void))
+	{
+		
+		guard let hostname = preferences.stringForKey("HOSTNAME") else { return }
+		
+		var parameters = [
+			"api" : "SYNO.VideoStation.TVShow",
+			"version": "2",
+			"method": "list",
+			"offset": "\(offset)",
+			"limit": "\(limit)",
+			"sort_by": sortBy,
+			"sort_direction": "desc",
+			"additional": "[\"genre\"]",
+			"library_id": "0"
+		]
+		
+		if let genreValue = genre {
+			parameters["genre"] = "[\"\(genreValue)\"]"
+		}
+		
+		func returnError() {
+			success(shows: nil, total:0, offset: offset, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
+		}
+		
+		httpManager
+			.request(.GET, "http://\(hostname):5000/webapi/VideoStation/tvshow.cgi", parameters: parameters)
+			.response { request, response, data, error in
+				
+				if error != nil {
+					returnError()
+					return
+				}
+				
+				guard let jsonData = data else {
+					returnError()
+					return
+				}
+				
+				let json = JSON(data: jsonData)
+				
+				if let jsonArray = json["data"]["tvshows"].array {
+					let shows:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
+					var total = 0;
+					if let totalValue = json["data"]["total"].int {
+						total = totalValue
+					}
+					success(shows: shows, total: total, offset: offset, error: nil)
 					return
 				}
 				
@@ -103,7 +159,7 @@ class MovieAPI
 				let json = JSON(data: jsonData)
 				
 				if let jsonArray = json["data"]["movies"].array {
-					let movies:[SynologyMediaItem] = self.makeMovies(jsonArray)
+					let movies:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
 					success(movie: movies[0], error: nil)
 					return
 				}
@@ -112,23 +168,69 @@ class MovieAPI
 		}
 	}
 	
+	func getTVShow(id:Int,
+		success: ((tvShow: SynologyMediaItem?, error: NSError?) -> Void))
+	{
+		
+		guard let hostname = preferences.stringForKey("HOSTNAME") else { return }
+		
+		var parameters = [
+			"api" : "SYNO.VideoStation.TVShow",
+			"version": "2",
+			"method": "getinfo",
+			"additional": "[\"poster_mtime\",\"summary\",\"watched_ratio\",\"collection\",\"file\",\"actor\",\"write\",\"director\",\"genre\",\"extra\"]",
+			"id": "\(id)"
+		]
+		
+		func returnError() {
+			success(tvShow: nil, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
+		}
+		
+		httpManager
+			.request(.GET,
+				"http://\(hostname):5000/webapi/VideoStation/tvshow.cgi",
+				parameters: parameters)
+			.response { request, response, data, error in
+				
+				if error != nil {
+					returnError()
+					return
+				}
+				
+				guard let jsonData = data else {
+					returnError()
+					return
+				}
+				
+				let json = JSON(data: jsonData)
+				
+				if let jsonArray = json["data"]["movies"].array {
+					let shows:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
+					success(tvShow: shows[0], error: nil)
+					return
+				}
+				
+				returnError()
+		}
+	}
+
 	
-	func makeMovie(movieJson:JSON)->SynologyMediaItem {
-		var movie = SynologyMediaItem()
-		movie.id = movieJson["id"].int
-		movie.title = movieJson["title"].string
-		movie.tagline = movieJson["tagline"].string
-		movie.certificate = movieJson["certificate"].string
-		let additional = movieJson["additional"].dictionary
+	func makeMediaItem(mediaJson:JSON)->SynologyMediaItem {
+		var media = SynologyMediaItem()
+		media.id = mediaJson["id"].int
+		media.title = mediaJson["title"].string
+		media.tagline = mediaJson["tagline"].string
+		media.certificate = mediaJson["certificate"].string
+		let additional = mediaJson["additional"].dictionary
 		
 		
 		let summaryJson = additional!["summary"]
 		if summaryJson != nil {
-			movie.summary = summaryJson!.string
+			media.summary = summaryJson!.string
 		}
 		if let files = additional!["file"]?.array {
 			let file = files[0].dictionary
-			movie.fileId = file!["id"]!.int
+			media.fileId = file!["id"]!.int
 		}
 		
 		if let genreJson = additional!["genre"]?.array {
@@ -138,18 +240,18 @@ class MovieAPI
 				genre.append(genreItem.stringValue)
 			}
 			
-			movie.genre = genre
+			media.genre = genre
 		}
-		return movie
+		return media
 	}
-	func makeMovies(moviesJson:[JSON])->[SynologyMediaItem] {
-		var movies:[SynologyMediaItem] = []
+	func makeMediaItems(mediaJson:[JSON])->[SynologyMediaItem] {
+		var media:[SynologyMediaItem] = []
 		
-		for appDict in moviesJson {
-			movies.append(makeMovie(appDict))
+		for appDict in mediaJson {
+			media.append(makeMediaItem(appDict))
 		}
 		
-		return movies
+		return media
 	}
 	
 }

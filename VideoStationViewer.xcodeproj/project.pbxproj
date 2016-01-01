@@ -51,6 +51,7 @@
 		78C370D51C235FE800F87BF2 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DEC36D1C208B3C0086D991 /* CoreDataHelper.swift */; };
 		78DEC36C1C2087830086D991 /* TestCoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DEC36B1C2087830086D991 /* TestCoreDataHelper.swift */; };
 		78DEC36E1C208B3C0086D991 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DEC36D1C208B3C0086D991 /* CoreDataHelper.swift */; };
+		78E090D51C3722240024459D /* tvshows.json in Resources */ = {isa = PBXBuildFile; fileRef = 78E090D41C3722240024459D /* tvshows.json */; };
 		78E68FF01C20CE8D00D6561D /* MovieRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E68FEF1C20CE8D00D6561D /* MovieRepository.swift */; };
 		78E68FF21C20D16600D6561D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78E68FF11C20D16600D6561D /* Main.storyboard */; };
 		78E68FF41C20D1CD00D6561D /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E68FF31C20D1CD00D6561D /* LoadingViewController.swift */; };
@@ -116,6 +117,7 @@
 		78C190151BDD7F0F00A1A2DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78DEC36B1C2087830086D991 /* TestCoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCoreDataHelper.swift; sourceTree = "<group>"; };
 		78DEC36D1C208B3C0086D991 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
+		78E090D41C3722240024459D /* tvshows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tvshows.json; sourceTree = "<group>"; };
 		78E68FEF1C20CE8D00D6561D /* MovieRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieRepository.swift; sourceTree = "<group>"; };
 		78E68FF11C20D16600D6561D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		78E68FF31C20D1CD00D6561D /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				7859DAC01C18257800240191 /* SessionAPITests.swift */,
 				7868E7151C35A450002B7FF6 /* movietitles.json */,
 				7868E7171C35C3AC002B7FF6 /* movie.json */,
+				78E090D41C3722240024459D /* tvshows.json */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7868E7181C35C3AC002B7FF6 /* movie.json in Resources */,
+				78E090D51C3722240024459D /* tvshows.json in Resources */,
 				7868E7161C35A450002B7FF6 /* movietitles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
