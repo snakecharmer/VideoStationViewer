@@ -1,5 +1,5 @@
 //
-//  Genre+CoreDataProperties.swift
+//  Director+CoreDataProperties.swift
 //  VideoStationViewer
 //
 //  Created by Zac Tolley on 01/01/2016.
@@ -12,9 +12,9 @@
 import Foundation
 import CoreData
 
-extension Genre {
+extension Director {
 
-    @NSManaged var genre: String?
+    @NSManaged var title: String?
     @NSManaged var media: NSSet?
 
 }

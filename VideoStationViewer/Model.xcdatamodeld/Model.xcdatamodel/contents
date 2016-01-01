@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Xcode 7.0">
-    <entity name="CastMember" syncable="YES">
+    <entity name="CastMember" representedClassName=".CastMember" syncable="YES">
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="media" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MediaItem" inverseName="cast" inverseEntity="MediaItem" syncable="YES"/>
     </entity>
-    <entity name="Director" syncable="YES">
+    <entity name="Director" representedClassName=".Director" syncable="YES">
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="media" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MediaItem" inverseName="directors" inverseEntity="MediaItem" syncable="YES"/>
     </entity>
-    <entity name="Episode" parentEntity="MediaItem" syncable="YES">
+    <entity name="Episode" representedClassName=".Episode" parentEntity="MediaItem" syncable="YES">
         <attribute name="episode" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="season" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="tagline" optional="YES" attributeType="String" syncable="YES"/>
@@ -18,7 +18,7 @@
         <attribute name="genre" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="media" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MediaItem" inverseName="genres" inverseEntity="MediaItem" syncable="YES"/>
     </entity>
-    <entity name="MediaItem" representedClassName=".MovieDetail" isAbstract="YES" syncable="YES">
+    <entity name="MediaItem" representedClassName=".MediaItem" isAbstract="YES" syncable="YES">
         <attribute name="certificate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="fileId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -33,8 +33,8 @@
         <relationship name="directors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Director" inverseName="media" inverseEntity="Director" syncable="YES"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="media" inverseEntity="Genre" syncable="YES"/>
     </entity>
-    <entity name="Movie" parentEntity="MediaItem" syncable="YES"/>
-    <entity name="Show" syncable="YES">
+    <entity name="Movie" representedClassName=".Movie" parentEntity="MediaItem" syncable="YES"/>
+    <entity name="Show" representedClassName=".Show" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>

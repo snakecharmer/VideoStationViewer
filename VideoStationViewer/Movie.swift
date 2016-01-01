@@ -1,5 +1,5 @@
 //
-//  Genre.swift
+//  Movie.swift
 //  VideoStationViewer
 //
 //  Created by Zac Tolley on 01/01/2016.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class Genre: NSManagedObject {
+class Movie: MediaItem {
 
 // Insert code here to add functionality to your managed object subclass
 

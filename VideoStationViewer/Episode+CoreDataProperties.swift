@@ -1,5 +1,5 @@
 //
-//  Genre+CoreDataProperties.swift
+//  Episode+CoreDataProperties.swift
 //  VideoStationViewer
 //
 //  Created by Zac Tolley on 01/01/2016.
@@ -12,9 +12,11 @@
 import Foundation
 import CoreData
 
-extension Genre {
+extension Episode {
 
-    @NSManaged var genre: String?
-    @NSManaged var media: NSSet?
+    @NSManaged var episode: NSNumber?
+    @NSManaged var tagline: String?
+    @NSManaged var season: NSNumber?
+    @NSManaged var show: Show?
 
 }
