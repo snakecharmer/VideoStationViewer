@@ -2,4 +2,4 @@ language: objective-c
 osx_image: xcode7.2
 xcode_workspace: VideoStationViewer.xcworkspace
 xcode_scheme: VideoStationViewr
-xcode_sdk: appletvsimulator9.0
+xcode_sdk: appletvsimulator
