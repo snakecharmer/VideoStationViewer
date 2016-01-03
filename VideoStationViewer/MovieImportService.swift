@@ -27,6 +27,7 @@ class MovieImportService {
 					let movieSummary = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: moc) as! Movie
 					movieSummary.title = synologyMovie.title
 					movieSummary.id = synologyMovie.id
+                    movieSummary.summary = synologyMovie.summary
 					
 					if let synologyMovieGenres = synologyMovie.genre {
 						var genreArray = [Genre]()

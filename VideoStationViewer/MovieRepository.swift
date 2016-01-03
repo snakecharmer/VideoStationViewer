@@ -64,15 +64,17 @@ class MovieRepository {
 				let movie = results[0]
 				if movie.isContainsDetail == true {
 					success(movie: results[0], error: nil)
+                    return
 				} else {
 					moc.deleteObject(movie)
 					self.movieImportService.importMovieDetails(id, success: success);
-				}
+                    return
+                }
 			}
 			
 			
 			self.movieImportService.importMovieDetails(id, success: success);
-			
+			return
 		} catch {
 			
 		}

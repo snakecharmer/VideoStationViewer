@@ -56,6 +56,7 @@ class MovieImportServiceTests: XCTestCase {
 				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Movie]
 				XCTAssertEqual(results.count, 1)
 				XCTAssertEqual(results[0].title!, "Test Title 1")
+                XCTAssertEqual(results[0].summary!, "Test Summary 1")
 				XCTAssertEqual(results[0].id, 1)
 				
 			} catch let error as NSError {

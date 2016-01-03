@@ -21,11 +21,13 @@ class TestMovieApi:MovieAPI {
         movie1.id = 1
         movie1.title = "Test Title 1"
         movie1.genre = ["Comedy","Drama"]
+        movie1.summary = "Test Summary 1"
         
         var movie2 = SynologyMediaItem()
         movie2.id = 2
         movie2.title = "Test Title 2"
         movie2.genre = ["Comedy","Family"]
+        movie2.summary = "Test Summary 2"
         
         success(movies: [movie1,movie2], total: 2, offset: 0, error: nil)
         

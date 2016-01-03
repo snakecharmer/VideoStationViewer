@@ -51,6 +51,7 @@ class MovieRepositoryTests: XCTestCase {
 			} else {
 				XCTFail()
 			}
+            NSLog("-------------------")
 			expectation.fulfill()
 		}
 		

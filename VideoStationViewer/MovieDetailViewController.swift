@@ -20,8 +20,12 @@ class MovieDetailViewController: UIViewController {
 
 			self.movieTitle.text = movieValue.title
 			self.summary.text = movieValue.summary
-			self.setupVideo()
 			
+            self.movieRepository.getMovie((movieValue.id?.integerValue)!, success: { (movie, error) -> Void in
+                self.movie = movie
+                self.setupVideo()
+            })
+            
 			movieValue.getImage { (image, error) -> Void in
 				self.imageView.image = image
 			}
