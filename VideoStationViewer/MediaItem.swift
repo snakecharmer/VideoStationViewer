@@ -12,6 +12,12 @@ import CoreData
 
 class MediaItem: NSManagedObject {
 
+    override func awakeFromInsert() {
+        super.awakeFromInsert()
+        self.mediaType = self.entity.name
+    }
+    
+
 	var isContainsDetail: Bool {
 		get {
 			if let containsDetailValue = containsDetail {

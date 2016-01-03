@@ -15,6 +15,7 @@ import CoreData
 extension MediaItem {
 
     @NSManaged var certificate: String?
+    @NSManaged var containsDetail: NSNumber?
     @NSManaged var duration: NSNumber?
     @NSManaged var fileId: NSNumber?
     @NSManaged var id: NSNumber?
@@ -24,7 +25,6 @@ extension MediaItem {
     @NSManaged var releaseYear: NSNumber?
     @NSManaged var summary: String?
     @NSManaged var title: String?
-    @NSManaged var containsDetail: NSNumber?
     @NSManaged var cast: NSSet?
     @NSManaged var directors: NSSet?
     @NSManaged var genres: NSSet?

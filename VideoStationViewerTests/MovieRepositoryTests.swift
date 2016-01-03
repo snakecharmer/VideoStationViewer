@@ -60,7 +60,7 @@ class MovieRepositoryTests: XCTestCase {
 		
 	}
 	
-	func testGeMovieDoesntCallAPIIfHasDetail() {
+	func testGetMovieDoesntCallAPIIfHasDetail() {
 		
 		let expectation = expectationWithDescription("Get Movie From DB")
 
@@ -102,22 +102,21 @@ class MovieRepositoryTests: XCTestCase {
         self.setupModel()
         
         let genres = self.movieRepository.getMovieGenres()
+        XCTAssertEqual(1, genres.count)
+    }
+    
+    func testGetMovieGenresOnlyLinkToMovieEntities() {
+        self.setupModel()
+        
+        let genres = self.movieRepository.getMovieGenres()
         for genre in genres {
             
             for mediaItem in genre.media!  {
-                let mediaMo = mediaItem as! NSManagedObject
-                if let typeName = mediaMo.entity.name {
-                    XCTAssertEqual("Movie", typeName)
-                }
+                XCTAssertEqual("Movie", mediaItem.mediaType)
             }
             
         }
-        
-        
-    }
     
-    func testGetMovieGenresOnlyContainMovies() {
-        
     }
     
     

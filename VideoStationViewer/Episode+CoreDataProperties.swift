@@ -2,7 +2,7 @@
 //  Episode+CoreDataProperties.swift
 //  VideoStationViewer
 //
-//  Created by Zac Tolley on 01/01/2016.
+//  Created by Zac Tolley on 03/01/2016.
 //  Copyright © 2016 Scropt. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -15,8 +15,8 @@ import CoreData
 extension Episode {
 
     @NSManaged var episode: NSNumber?
-    @NSManaged var tagline: String?
     @NSManaged var season: NSNumber?
+    @NSManaged var tagline: String?
     @NSManaged var show: Show?
 
 }

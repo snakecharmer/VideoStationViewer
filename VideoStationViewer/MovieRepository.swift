@@ -84,6 +84,7 @@ class MovieRepository {
     
     func getMovieGenres() -> [Genre] {
         let fetchRequest = NSFetchRequest(entityName: "Genre")
+        fetchRequest.predicate = NSPredicate(format: "ALL media.mediaType = %@", "Movie")
         let descriptor: NSSortDescriptor = NSSortDescriptor(key: "genre", ascending: true)
         let sortDescriptors = [descriptor]
         fetchRequest.sortDescriptors = sortDescriptors
