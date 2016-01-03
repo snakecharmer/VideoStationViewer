@@ -51,7 +51,6 @@ class MovieRepositoryTests: XCTestCase {
 			} else {
 				XCTFail()
 			}
-            NSLog("-------------------")
 			expectation.fulfill()
 		}
 		
@@ -98,5 +97,70 @@ class MovieRepositoryTests: XCTestCase {
 		
 		
 	}
+    
+    func testGetMovieGenresOnlyReturnsGenresWithMovies() {
+        self.setupModel()
+        
+        let genres = self.movieRepository.getMovieGenres()
+        for genre in genres {
+            
+            for mediaItem in genre.media!  {
+                let mediaMo = mediaItem as! NSManagedObject
+                if let typeName = mediaMo.entity.name {
+                    XCTAssertEqual("Movie", typeName)
+                }
+            }
+            
+        }
+        
+        
+    }
+    
+    func testGetMovieGenresOnlyContainMovies() {
+        
+    }
+    
+    
+    
+    func setupModel() {
+        // Create a genre, a movie and a tv show with an episode.
+        let genreEntity =  NSEntityDescription.entityForName("Genre", inManagedObjectContext: self.coreDataHelper.managedObjectContext!)
+        let movieEntity =  NSEntityDescription.entityForName("Movie", inManagedObjectContext: self.coreDataHelper.managedObjectContext!)
+        let showEntity =  NSEntityDescription.entityForName("Show", inManagedObjectContext: self.coreDataHelper.managedObjectContext!)
+        let episodeEntity =  NSEntityDescription.entityForName("Episode", inManagedObjectContext: self.coreDataHelper.managedObjectContext!)
+        
+        let genre = NSManagedObject(entity: genreEntity!, insertIntoManagedObjectContext: self.coreDataHelper.managedObjectContext!) as! Genre
+        genre.genre = "Comedy"
+        
+        let movie = NSManagedObject(entity: movieEntity!, insertIntoManagedObjectContext: self.coreDataHelper.managedObjectContext!) as! Movie
+        movie.id = 1
+        movie.title = "Movie Title"
+        movie.summary = "Movie Summary"
+        
+        
+        let show = NSManagedObject(entity: showEntity!, insertIntoManagedObjectContext: self.coreDataHelper.managedObjectContext!) as! Show
+        show.id = 2
+        show.title = "Show Title"
+        show.summary = "Show Summary"
+        
+        
+        let episode = NSManagedObject(entity: episodeEntity!, insertIntoManagedObjectContext: self.coreDataHelper.managedObjectContext!) as! Episode
+        episode.id = 3
+        episode.title = "Episode Title"
+        episode.summary = "Episode Summary"
+        
+        
+        // Link the episode to the show and vice versa
+        episode.show = show
+        show.episodes = NSSet(array: [episode])
+        
+        // Link the episode to the genre, and vice versa
+        // Link the movie to the genre, and vice versa
+        movie.genres = NSSet(array: [genre])
+        episode.genres = NSSet(array: [genre])
+        
+        genre.media = NSSet(array: [movie,episode])
+        
+    }
     
 }

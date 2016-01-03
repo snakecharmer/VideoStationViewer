@@ -81,4 +81,22 @@ class MovieRepository {
 		
 	}
 	
+    
+    func getMovieGenres() -> [Genre] {
+        let fetchRequest = NSFetchRequest(entityName: "Genre")
+        let descriptor: NSSortDescriptor = NSSortDescriptor(key: "genre", ascending: true)
+        let sortDescriptors = [descriptor]
+        fetchRequest.sortDescriptors = sortDescriptors
+        
+        var genres = [Genre]()
+        
+        do {
+            genres = try moc.executeFetchRequest(fetchRequest) as![Genre]
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+        return genres
+        
+    }
 }
