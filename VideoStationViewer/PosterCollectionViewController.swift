@@ -69,7 +69,7 @@ class PosterCollectionViewController: UICollectionViewController {
 		let cell = sender as! PosterCell
 		let movie = cell.representedDataItem
 		let controller = segue.destinationViewController as! MovieDetailViewController
-		controller.movieSummary = movie
+		controller.movie = movie
 	
 	}
 	

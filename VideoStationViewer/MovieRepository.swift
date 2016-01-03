@@ -16,16 +16,16 @@ class MovieRepository {
 	}
 	
 	func getMovieSummariesForGenre(genre:String,
-		success: ((movies: [MovieSummary]?, error: NSError?) -> Void))
+		success: ((movies: [Movie]?, error: NSError?) -> Void))
 	{
 		let fetchRequest = NSFetchRequest(entityName: "Genre")
 		fetchRequest.predicate = NSPredicate(format: "genre == %@", genre)
-		var movies = [MovieSummary]()
+		var movies = [Movie]()
 		
 		do {
 			let results = try self.moc.executeFetchRequest(fetchRequest) as![Genre]
 			let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-			movies = results[0].movies?.sortedArrayUsingDescriptors([descriptor]) as! [MovieSummary]
+			movies = results[0].media?.sortedArrayUsingDescriptors([descriptor]) as! [Movie]
 		} catch let error as NSError {
 			success(movies: [], error: error)
 			return
@@ -53,22 +53,30 @@ class MovieRepository {
 	}
 	
 	func getMovie(id:Int,
-		success: ((movie: MovieDetail?, error: NSError?) -> Void))
+		success: ((movie: Movie?, error: NSError?) -> Void))
 	{
-		let fetchRequest = NSFetchRequest(entityName: "MovieDetail")
+		let fetchRequest = NSFetchRequest(entityName: "Movie")
 		fetchRequest.predicate = NSPredicate(format: "id == %d", id)
 		
 		do {
-			let results = try self.moc.executeFetchRequest(fetchRequest) as![MovieDetail]
+			let results = try self.moc.executeFetchRequest(fetchRequest) as![Movie]
 			if results.count == 1 {
-				success(movie: results[0], error: nil)
-			} else {
-				self.movieImportService.importMovieDetails(id, success: success);
+				let movie = results[0]
+				if movie.isContainsDetail == true {
+					success(movie: results[0], error: nil)
+				} else {
+					moc.deleteObject(movie)
+					self.movieImportService.importMovieDetails(id, success: success);
+				}
 			}
+			
+			
+			self.movieImportService.importMovieDetails(id, success: success);
+			
 		} catch {
 			
 		}
 		
 	}
-
+	
 }

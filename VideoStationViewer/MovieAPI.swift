@@ -66,6 +66,53 @@ class MovieAPI
 		}
 	}
 	
+	func getMovie(id:Int,
+		success: ((movie: SynologyMediaItem?, error: NSError?) -> Void))
+	{
+		
+		guard let hostname = preferences.stringForKey("HOSTNAME") else { return }
+		
+		var parameters = [
+			"api" : "SYNO.VideoStation.Movie",
+			"version": "2",
+			"method": "getinfo",
+			"additional": "[\"poster_mtime\",\"summary\",\"watched_ratio\",\"collection\",\"file\",\"actor\",\"write\",\"director\",\"genre\",\"extra\"]",
+			"id": "\(id)"
+		]
+		
+		func returnError() {
+			success(movie: nil, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
+		}
+		
+		httpManager
+			.request(.GET,
+				"http://\(hostname):5000/webapi/VideoStation/movie.cgi",
+				parameters: parameters)
+			.response { request, response, data, error in
+				
+				if error != nil {
+					returnError()
+					return
+				}
+				
+				guard let jsonData = data else {
+					returnError()
+					return
+				}
+				
+				let json = JSON(data: jsonData)
+				
+				if let jsonArray = json["data"]["movies"].array {
+					let movies:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
+					success(movie: movies[0], error: nil)
+					return
+				}
+				
+				returnError()
+		}
+	}
+	
+	
 	func getTVTitles(offset:Int=0, genre:String? = nil, limit:Int=99999, sortBy:String="added",
 		success: ((shows: [SynologyMediaItem]?, total: Int, offset: Int, error: NSError?) -> Void))
 	{
@@ -80,7 +127,7 @@ class MovieAPI
 			"limit": "\(limit)",
 			"sort_by": sortBy,
 			"sort_direction": "desc",
-			"additional": "[\"genre\"]",
+			"additional": "[\"genre\",\"summary\"]",
 			"library_id": "0"
 		]
 		
@@ -115,52 +162,6 @@ class MovieAPI
 						total = totalValue
 					}
 					success(shows: shows, total: total, offset: offset, error: nil)
-					return
-				}
-				
-				returnError()
-		}
-	}
-	
-	func getMovie(id:Int,
-		success: ((movie: SynologyMediaItem?, error: NSError?) -> Void))
-	{
-		
-		guard let hostname = preferences.stringForKey("HOSTNAME") else { return }
-		
-		var parameters = [
-			"api" : "SYNO.VideoStation.Movie",
-			"version": "2",
-			"method": "getinfo",
-			"additional": "[\"poster_mtime\",\"summary\",\"watched_ratio\",\"collection\",\"file\",\"actor\",\"write\",\"director\",\"genre\",\"extra\"]",
-			"id": "\(id)"
-		]
-		
-		func returnError() {
-			success(movie: nil, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
-		}
-		
-		httpManager
-			.request(.GET,
-					"http://\(hostname):5000/webapi/VideoStation/movie.cgi",
-					parameters: parameters)
-			.response { request, response, data, error in
-				
-				if error != nil {
-					returnError()
-					return
-				}
-				
-				guard let jsonData = data else {
-					returnError()
-					return
-				}
-				
-				let json = JSON(data: jsonData)
-				
-				if let jsonArray = json["data"]["movies"].array {
-					let movies:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
-					success(movie: movies[0], error: nil)
 					return
 				}
 				

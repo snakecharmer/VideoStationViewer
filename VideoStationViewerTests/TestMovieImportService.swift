@@ -4,7 +4,7 @@ class TestMovieImportService:MovieImportService {
 	
 	var movie:SynologyMediaItem?
 	
-	override func importMovieDetails(id: Int, success: (movie: MovieDetail?, error: NSError?) -> Void) {
+	override func importMovieDetails(id: Int, success: (movie: Movie?, error: NSError?) -> Void) {
 		
 		if var movieValue = self.movie {
 			movieValue.id = id

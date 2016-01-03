@@ -9,33 +9,22 @@ class MovieDetailViewController: UIViewController {
 	
 	let movieRepository = MovieRepository.sharedInstance
 	
-	var movieSummary:MovieSummary?
-	var movieDetail:MovieDetail?
+	var movie:Movie?
 
 	var avPlayer:AVPlayer!
 	var avController:AVPlayerViewController!
 	
 	override func viewDidLoad() {
 
-		if let movieSummaryValue = self.movieSummary {
+		if let movieValue = self.movie {
 
-			self.movieTitle.text = movieSummaryValue.title
-			self.summary.text = ""
+			self.movieTitle.text = movieValue.title
+			self.summary.text = movieValue.summary
+			self.setupVideo()
 			
-			self.movieRepository.getMovie((movieSummaryValue.id?.integerValue)!, success: { (movie, error) -> Void in
-				
-				if let movieDetailValue = movie {
-					
-					self.movieDetail = movieDetailValue
-					self.summary.text = movieDetailValue.summary
-					self.setupVideo()
-				
-					movieDetailValue.getImage { (image, error) -> Void in
-						self.imageView.image = image
-					}
-				
-				}
-			})
+			movieValue.getImage { (image, error) -> Void in
+				self.imageView.image = image
+			}
 		}
 		
 		
@@ -49,7 +38,7 @@ class MovieDetailViewController: UIViewController {
 	}
 	
 	func setupVideo() {
-		if let url = self.movieDetail?.getMovieUrl() {
+		if let url = self.movie?.getMovieUrl() {
 			let avPlayer = AVPlayer(URL: url)
 			let aViewController = AVPlayerViewController()
 				

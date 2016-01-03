@@ -12,6 +12,16 @@ import CoreData
 
 class MediaItem: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+	var isContainsDetail: Bool {
+		get {
+			if let containsDetailValue = containsDetail {
+				return Bool(containsDetailValue)
+			}
+			return false
+		}
+		set {
+			containsDetail = NSNumber(bool: newValue)
+		}
+	}
 
 }

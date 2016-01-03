@@ -231,7 +231,7 @@ class MovieAPITest: XCTestCase {
         })
 	}
 	
-	
+	/*
 	func testGetTVSummariesCallsCorrectUrl() {
 		
 		let expectation = self.expectationWithDescription("testGetTVSummariesCallsCorrectUrl")
@@ -398,5 +398,5 @@ class MovieAPITest: XCTestCase {
 		})
 		
 	}
-	
+	*/
 	}

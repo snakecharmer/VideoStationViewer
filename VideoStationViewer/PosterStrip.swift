@@ -8,7 +8,7 @@ class PosterStrip: UICollectionViewCell, UICollectionViewDataSource, UICollectio
 	
 	@IBOutlet var collectionView: UICollectionView!
 	
-	private var dataItems = [MovieSummary]()
+	private var dataItems = [Movie]()
 	private let cellBuilder = PosterCellBuilder()
 	
 	override var preferredFocusedView: UIView? {
@@ -20,11 +20,11 @@ class PosterStrip: UICollectionViewCell, UICollectionViewDataSource, UICollectio
 	func configureWithGenre(genre:Genre) {
 		
 		self.genre = genre.genre!;
-		self.dataItems = [MovieSummary]()
+		self.dataItems = [Movie]()
 		self.collectionView!.reloadData()
 		
 		let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-		self.dataItems = genre.movies?.sortedArrayUsingDescriptors([descriptor]) as! [MovieSummary]!
+		self.dataItems = genre.media?.sortedArrayUsingDescriptors([descriptor]) as! [Movie]!
 		self.collectionView!.reloadData()
 
 	}

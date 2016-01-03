@@ -20,6 +20,7 @@
     </entity>
     <entity name="MediaItem" representedClassName=".MediaItem" isAbstract="YES" syncable="YES">
         <attribute name="certificate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="containsDetail" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="fileId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -41,12 +42,12 @@
         <relationship name="episodes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Episode" inverseName="show" inverseEntity="Episode" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Episode" positionX="-450" positionY="-945" width="128" height="103"/>
-        <element name="Genre" positionX="-783" positionY="-1188" width="128" height="73"/>
-        <element name="MediaItem" positionX="-576" positionY="-1267" width="128" height="238"/>
-        <element name="Show" positionX="-234" positionY="-985" width="128" height="103"/>
         <element name="CastMember" positionX="-398" positionY="-1251" width="128" height="73"/>
         <element name="Director" positionX="-398" positionY="-1117" width="128" height="73"/>
-        <element name="Movie" positionX="-677" positionY="-916" width="128" height="43"/>
+        <element name="Episode" positionX="-450" positionY="-945" width="128" height="103"/>
+        <element name="Genre" positionX="-783" positionY="-1188" width="128" height="73"/>
+        <element name="MediaItem" positionX="-576" positionY="-1267" width="128" height="253"/>
+        <element name="Movie" positionX="-677" positionY="-916" width="128" height="45"/>
+        <element name="Show" positionX="-234" positionY="-985" width="128" height="103"/>
     </elements>
 </model>

@@ -23,11 +23,11 @@ class MovieImportServiceTests: XCTestCase {
         let expectation = self.expectationWithDescription("Get many movies")
         self.movieImportService.importMovies { (total, error) -> Void in
             
-            let fetchRequest = NSFetchRequest(entityName: "MovieSummary")
+            let fetchRequest = NSFetchRequest(entityName: "Movie")
             
             do {
                 
-                let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![MovieSummary]
+                let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Movie]
                 XCTAssertEqual(results.count, 2)
                 
             } catch let error as NSError {
@@ -49,11 +49,11 @@ class MovieImportServiceTests: XCTestCase {
 		let expectation = self.expectationWithDescription("Get many movies")
 		self.movieImportService.importMovies { (total, error) -> Void in
 			
-			let fetchRequest = NSFetchRequest(entityName: "MovieSummary")
+			let fetchRequest = NSFetchRequest(entityName: "Movie")
             fetchRequest.predicate = NSPredicate(format: "id == %d", 1)
 			
 			do {
-				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![MovieSummary]
+				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Movie]
 				XCTAssertEqual(results.count, 1)
 				XCTAssertEqual(results[0].title!, "Test Title 1")
 				XCTAssertEqual(results[0].id, 1)
@@ -107,8 +107,8 @@ class MovieImportServiceTests: XCTestCase {
 				fetchRequest.predicate = NSPredicate(format: "genre == %@", "Drama")
 				
 				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Genre]
-				let movies = results[0].movies
-                let moviesArray = movies?.allObjects as! [MovieSummary]
+				let movies = results[0].media
+                let moviesArray = movies?.allObjects as! [Movie]
 				
 				XCTAssertEqual(moviesArray.count, 1)
                 XCTAssertEqual(moviesArray[0].title, "Test Title 1")
@@ -134,11 +134,11 @@ class MovieImportServiceTests: XCTestCase {
 		self.movieImportService.importMovies { (total, error) -> Void in
 			
 			do {
-				let fetchRequest = NSFetchRequest(entityName: "MovieSummary")
+				let fetchRequest = NSFetchRequest(entityName: "Movie")
 				fetchRequest.predicate = NSPredicate(format: "id == 1")
 				
-				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![MovieSummary]
-				let movieSummary = results[0] as MovieSummary
+				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Movie]
+				let movieSummary = results[0] as Movie
 				
 				let descriptor: NSSortDescriptor = NSSortDescriptor(key: "genre", ascending: true)
 				let genres = movieSummary.genres?.sortedArrayUsingDescriptors([descriptor]) as! [Genre]
@@ -194,6 +194,7 @@ class MovieImportServiceTests: XCTestCase {
 				XCTAssertEqual(movieValue.id, 1)
 				XCTAssertEqual(movieValue.fileId, 99)
 				XCTAssertEqual(movieValue.summary, "Test Summary")
+				XCTAssertEqual(true, movieValue.isContainsDetail)
 				expectation.fulfill()
 			
 			} else {

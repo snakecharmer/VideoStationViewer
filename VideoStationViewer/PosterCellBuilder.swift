@@ -7,7 +7,7 @@ class PosterCellBuilder {
 	
 	// MARK: Implementation
 	
-	func composeCell(cell: PosterCell, withDataItem dataItem: MovieSummary) {
+	func composeCell(cell: PosterCell, withDataItem dataItem: Movie) {
 		if cell.representedDataItem == dataItem {
 			return
 		}

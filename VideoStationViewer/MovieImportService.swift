@@ -20,11 +20,11 @@ class MovieImportService {
 			
 			if let moviesValue = movies {
 
-				let entity =  NSEntityDescription.entityForName("MovieSummary", inManagedObjectContext: moc)
+				let entity =  NSEntityDescription.entityForName("Movie", inManagedObjectContext: moc)
 				
 				for synologyMovie in moviesValue {
 					
-					let movieSummary = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: moc) as! MovieSummary
+					let movieSummary = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: moc) as! Movie
 					movieSummary.title = synologyMovie.title
 					movieSummary.id = synologyMovie.id
 					
@@ -48,10 +48,11 @@ class MovieImportService {
 		}
 	}
 	
-	func importMovieDetails(id:Int, success:(movie:MovieDetail?, error : NSError?) -> Void) {
+	func importMovieDetails(id:Int, success:(movie:Movie?, error : NSError?) -> Void) {
 		self.movieAPI.getMovie(id) { (movie, error) -> Void in
 			if let sourceMovieValue = movie {
 				let movieDetail = self.makeMovieDetailFromSynologyMediaItem(sourceMovieValue)
+				movieDetail.isContainsDetail = true
 				success(movie: movieDetail, error: nil)
 			} else {
 				success(movie: nil, error: nil)
@@ -87,10 +88,10 @@ class MovieImportService {
 		return nil
 	}
 	
-	func makeMovieDetailFromSynologyMediaItem(sourceMovie:SynologyMediaItem) -> MovieDetail {
+	func makeMovieDetailFromSynologyMediaItem(sourceMovie:SynologyMediaItem) -> Movie {
 		
-		let entity =  NSEntityDescription.entityForName("MovieDetail", inManagedObjectContext: moc)
-		let movieDetail = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: moc) as! MovieDetail
+		let entity =  NSEntityDescription.entityForName("Movie", inManagedObjectContext: moc)
+		let movieDetail = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: moc) as! Movie
 		
 		movieDetail.id = sourceMovie.id
 		movieDetail.title = sourceMovie.title
@@ -111,4 +112,5 @@ class MovieImportService {
 		return movieDetail
 		
 	}
+	
 }
