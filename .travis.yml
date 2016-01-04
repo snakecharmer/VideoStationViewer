@@ -5,7 +5,7 @@ env:
     - WORKSPACE=VideoStationViewer.xcworkspace
     - SCHEME=VideoStationViewer
     - TVOS_SDK=appletvsimulator9.1
-    - DESTINATION="id=0420DD65-CB12-418C-83E4-52B2B95803DC"
+    - DESTINATION="id=07D006FD-B02B-4633-B24F-4F907B38A60A"
 
 script:
   - set -o pipefail
