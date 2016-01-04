@@ -5,7 +5,7 @@ env:
     - WORKSPACE=VideoStationViewer.xcworkspace
     - SCHEME=VideoStationViewer
     - TVOS_SDK=appletvsimulator9.1
-    - DESTINATION="id=07D006FD-B02B-4633-B24F-4F907B38A60A"
+    - DESTINATION="OS=9.1,name=Apple TV 1080p"
 
 script:
   - set -o pipefail
