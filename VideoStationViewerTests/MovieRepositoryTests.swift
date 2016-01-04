@@ -111,7 +111,7 @@ class MovieRepositoryTests: XCTestCase {
 		
 		self.setupModel()
         
-		self.movieRepository.getMovieSummariesForGenre("Comedy") { (movies, error) -> Void in
+		self.movieRepository.getEntitySummariesForGenre("Comedy") { (movies, error) -> Void in
 			
 			if let movieValues = movies {
 				for movie in movieValues {
