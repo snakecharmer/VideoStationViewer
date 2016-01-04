@@ -101,26 +101,36 @@ class MovieRepositoryTests: XCTestCase {
     func testGetMovieGenresOnlyReturnsGenresWithMovies() {
         self.setupModel()
         
-        let genres = self.movieRepository.getMovieGenres()
+        let genres = self.movieRepository.getGenres("Movie")
         XCTAssertEqual(1, genres.count)
     }
-    
-    func testGetMovieGenresOnlyLinkToMovieEntities() {
-        self.setupModel()
+	
+    func testGetMoviesForGenre() {
+		
+		let expectation = expectationWithDescription("Get comedy movies")
+		
+		self.setupModel()
         
-        let genres = self.movieRepository.getMovieGenres()
-        for genre in genres {
-            
-            for mediaItem in genre.media!  {
-                XCTAssertEqual("Movie", mediaItem.mediaType)
-            }
-            
-        }
-    
+		self.movieRepository.getMovieSummariesForGenre("Comedy") { (movies, error) -> Void in
+			
+			if let movieValues = movies {
+				for movie in movieValues {
+					let genres = movie.genres?.allObjects as! [Genre]
+					XCTAssertEqual(1, genres.count)
+					XCTAssertEqual(genres[0].genre, "Comedy")
+				}
+			} else {
+				XCTFail()
+			}
+			
+			expectation.fulfill()
+		}
+		
+		waitForExpectationsWithTimeout(500, handler: {
+			error in XCTAssertNil(error, "Oh, we got timeout")
+		})
     }
-    
-    
-    
+	
     func setupModel() {
         // Create a genre, a movie and a tv show with an episode.
         let genreEntity =  NSEntityDescription.entityForName("Genre", inManagedObjectContext: self.coreDataHelper.managedObjectContext!)

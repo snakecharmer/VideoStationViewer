@@ -7,8 +7,8 @@ class PosterCellBuilder {
 	
 	// MARK: Implementation
 	
-	func composeCell(cell: PosterCell, withDataItem dataItem: Movie) {
-		if cell.representedDataItem == dataItem {
+	func composeCell(cell: PosterCell, withDataItem mediaItem: MediaItem) {
+		if cell.representedDataItem == mediaItem {
 			return
 		}
 		
@@ -16,8 +16,8 @@ class PosterCellBuilder {
 		let operationQueue = operationQueueForCell(cell)
 		operationQueue.cancelAllOperations()
 		
-		cell.representedDataItem = dataItem
-		cell.label.text = dataItem.title
+		cell.representedDataItem = mediaItem
+		cell.label.text = mediaItem.title
 		
 		cell.imageView.alpha = 0.0
 		
@@ -36,12 +36,12 @@ class PosterCellBuilder {
 			guard !processImageOperation.cancelled else { return }
 			
 			
-			self.imageRepository.getImage((dataItem.id?.integerValue)!) { (image, error) -> Void in
+			self.imageRepository.getImage((mediaItem.id?.integerValue)!) { (image, error) -> Void in
 				
 				// Store the processed image in the cache.
 				NSOperationQueue.mainQueue().addOperationWithBlock {
 					// Check that the cell is still showing the same `DataItem`.
-					guard dataItem == cell.representedDataItem else { return }
+					guard mediaItem == cell.representedDataItem else { return }
 					
 					// Update the cell's `UIImageView` and then fade it into view.
 					cell.imageView.image = image

@@ -9,31 +9,35 @@ class MovieDetailViewController: UIViewController {
 	
 	let movieRepository = MovieRepository.sharedInstance
 	
-	var movie:Movie?
+	var movie:Movie? {
+		didSet {
+			if self.isViewLoaded() {
+				self.layout()
+			}
+		}
+	}
 
 	var avPlayer:AVPlayer!
 	var avController:AVPlayerViewController!
 	
 	override func viewDidLoad() {
-
+		if self.movie != nil {
+			layout()
+		}
+	}
+	
+	func layout() {
 		if let movieValue = self.movie {
-
+			
 			self.movieTitle.text = movieValue.title
 			self.summary.text = movieValue.summary
+			self.setupVideo()
 			
-            self.movieRepository.getMovie((movieValue.id?.integerValue)!, success: { (movie, error) -> Void in
-                self.movie = movie
-                self.setupVideo()
-            })
-            
 			movieValue.getImage { (image, error) -> Void in
 				self.imageView.image = image
 			}
 		}
-		
-		
 	}
-	
 	
 	@IBAction func showFullScreen(sender: AnyObject) {
 		self.presentViewController(self.avController, animated: true, completion: {

@@ -4,11 +4,10 @@ class PosterStrip: UICollectionViewCell, UICollectionViewDataSource, UICollectio
 	// MARK: Properties
 	
 	static let reuseIdentifier = "CollectionViewContainerCell"
-	var genre = ""
+	var mediaItems = [MediaItem]()
 	
 	@IBOutlet var collectionView: UICollectionView!
 	
-	private var dataItems = [Movie]()
 	private let cellBuilder = PosterCellBuilder()
 	
 	override var preferredFocusedView: UIView? {
@@ -17,16 +16,9 @@ class PosterStrip: UICollectionViewCell, UICollectionViewDataSource, UICollectio
 	
 	// MARK: Configuration
 	
-	func configureWithGenre(genre:Genre) {
-		
-		self.genre = genre.genre!;
-		self.dataItems = [Movie]()
+	func configureWithMediaItems(mediaItems:[MediaItem]) {
+		self.mediaItems = mediaItems;
 		self.collectionView!.reloadData()
-		
-		let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-		self.dataItems = genre.media?.sortedArrayUsingDescriptors([descriptor]) as! [Movie]!
-		self.collectionView!.reloadData()
-
 	}
 	
 	// MARK: UICollectionViewDataSource
@@ -36,7 +28,7 @@ class PosterStrip: UICollectionViewCell, UICollectionViewDataSource, UICollectio
 	}
 	
 	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return dataItems.count
+		return mediaItems.count
 	}
 	
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -47,7 +39,7 @@ class PosterStrip: UICollectionViewCell, UICollectionViewDataSource, UICollectio
 	
 	func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 		guard let cell = cell as? PosterCell else { fatalError("Expected to display a DataItemCollectionViewCell") }
-		let item = dataItems[indexPath.row]
+		let item = mediaItems[indexPath.row]
 		
 		// Configure the cell.
 		cellBuilder.composeCell(cell, withDataItem: item)

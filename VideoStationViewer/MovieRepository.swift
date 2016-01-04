@@ -15,30 +15,33 @@ class MovieRepository {
 		self.movieImportService = MovieImportService(moc: moc)
 	}
 	
-	func getMovieSummariesForGenre(genre:String,
-		success: ((movies: [Movie]?, error: NSError?) -> Void))
+	func getEntitySummariesForGenre(genre:String, entityType:String = "Movie",
+		success: ((mediaItems: [MediaItem]?, error: NSError?) -> Void))
 	{
-		let fetchRequest = NSFetchRequest(entityName: "Genre")
-		fetchRequest.predicate = NSPredicate(format: "genre == %@", genre)
-		var movies = [Movie]()
+		let fetchRequest = NSFetchRequest(entityName: entityType)
+		fetchRequest.predicate = NSPredicate(format: "ANY genres.genre == %@", genre)
+		let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+		fetchRequest.sortDescriptors = [descriptor]
+		var mediaItems:[MediaItem]?
 		
 		do {
-			let results = try self.moc.executeFetchRequest(fetchRequest) as![Genre]
-			let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-			movies = results[0].media?.sortedArrayUsingDescriptors([descriptor]) as! [Movie]
+			mediaItems = try self.moc.executeFetchRequest(fetchRequest) as? [Movie]
 		} catch let error as NSError {
-			success(movies: [], error: error)
+			success(mediaItems: nil, error: error)
 			return
 		}
 		
-		success(movies: movies, error: nil)
+		success(mediaItems: mediaItems, error: nil)
 	}
 	
-	func getGenres() -> [Genre] {
+	func getGenres(entityType:String? = nil) -> [Genre] {
 		let fetchRequest = NSFetchRequest(entityName: "Genre")
         let descriptor: NSSortDescriptor = NSSortDescriptor(key: "genre", ascending: true)
         let sortDescriptors = [descriptor]
         fetchRequest.sortDescriptors = sortDescriptors
+		if let entityTypeValue = entityType {
+			fetchRequest.predicate = NSPredicate(format: "ANY media.mediaType = %@", entityTypeValue)
+		}
         
 		var genres = [Genre]()
 		
@@ -81,23 +84,5 @@ class MovieRepository {
 		
 	}
 	
-    
-    func getMovieGenres() -> [Genre] {
-        let fetchRequest = NSFetchRequest(entityName: "Genre")
-        fetchRequest.predicate = NSPredicate(format: "ALL media.mediaType = %@", "Movie")
-        let descriptor: NSSortDescriptor = NSSortDescriptor(key: "genre", ascending: true)
-        let sortDescriptors = [descriptor]
-        fetchRequest.sortDescriptors = sortDescriptors
-        
-        var genres = [Genre]()
-        
-        do {
-            genres = try moc.executeFetchRequest(fetchRequest) as![Genre]
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        
-        return genres
-        
-    }
+
 }

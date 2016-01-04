@@ -24,11 +24,11 @@ class TabBarViewController: UITabBarController {
 			
 			moviePosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("PosterCollection") as! PosterCollectionViewController
 			moviePosterCollectionViewController.title = "Movies"
-			moviePosterCollectionViewController.setTitleAndType("Movies", type: "movie")
+			moviePosterCollectionViewController.setTitleAndType("Movies", type: "Movie")
 			
 			tvPosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("PosterCollection") as! PosterCollectionViewController
 			tvPosterCollectionViewController.title = "TV Programmes"
-			tvPosterCollectionViewController.setTitleAndType("TV Programmes", type: "tv")
+			tvPosterCollectionViewController.setTitleAndType("TV Programmes", type: "Episode")
 
 			settingsViewController = settingsStoryboard.instantiateViewControllerWithIdentifier("Settings") as! SettingsViewController
 			self.setViewControllers([moviePosterCollectionViewController, tvPosterCollectionViewController, settingsViewController], animated: true)

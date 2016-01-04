@@ -6,7 +6,7 @@ class PosterCollectionViewController: UICollectionViewController {
 	private static let minimumEdgePadding = CGFloat(90.0)
 	private var movieRepository:MovieRepository!
 	private var genres = [Genre]()
-	private var listType = "movies"
+	private var listType = "Movie"
 	
 	// MARK: UIViewController
 	
@@ -26,8 +26,8 @@ class PosterCollectionViewController: UICollectionViewController {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		// Get a list of genres and then reload the collection, which in turn will load the movies for each genre
-		self.genres = movieRepository!.getGenres()
+		// Get a list of genres and then reload the collection, which in turn will load the media items for each genre
+		self.genres = movieRepository!.getGenres(self.listType)
 		self.collectionView!.reloadData()
 	}
 	
@@ -52,7 +52,12 @@ class PosterCollectionViewController: UICollectionViewController {
 	override func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 		//print("Poster Collection: will display cell \(indexPath)")
 		guard let cell = cell as? PosterStrip else { fatalError("Expected to display a `CollectionViewContainerCell`.") }
-		cell.configureWithGenre(genres[indexPath.section])
+		let genre = genres[indexPath.section].genre
+		
+		movieRepository.getEntitySummariesForGenre(genre!, entityType: listType) { (mediaItems, error) -> Void in
+			cell.configureWithMediaItems(mediaItems!)
+		}
+
 	}
 	
 	override func collectionView(collectionView: UICollectionView, canFocusItemAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -67,17 +72,20 @@ class PosterCollectionViewController: UICollectionViewController {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		
 		let cell = sender as! PosterCell
-		let movie = cell.representedDataItem
 		let controller = segue.destinationViewController as! MovieDetailViewController
-		controller.movie = movie
-	
+		controller.movie = nil
+		
+		movieRepository.getMovie((cell.representedDataItem?.id?.integerValue)!) { (movie, error) -> Void in
+			controller.movie = movie
+		}
+		
 	}
 	
 	// Todo find a way to display a section title
 
 	internal func setTitleAndType(title:String, type:String) {
-		//self.title = title
-		//self.listType = type
+		self.title = title
+		self.listType = type
 	}
 	
 	override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {

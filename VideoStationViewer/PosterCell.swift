@@ -10,7 +10,7 @@ class PosterCell: UICollectionViewCell {
 	
 	@IBOutlet weak var imageView: UIImageView!
 	
-	var representedDataItem: Movie?
+	var representedDataItem: MediaItem?
 	
 	// MARK: Initialization
 	
