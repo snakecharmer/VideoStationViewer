@@ -113,7 +113,7 @@ class MovieAPI
 	}
 	
 	
-	func getTVTitles(offset:Int=0, genre:String? = nil, limit:Int=99999, sortBy:String="added",
+	func getTVShows(offset:Int=0, limit:Int=99999, sortBy:String="sort_title",
 		success: ((shows: [SynologyMediaItem]?, total: Int, offset: Int, error: NSError?) -> Void))
 	{
 		
@@ -126,14 +126,9 @@ class MovieAPI
 			"offset": "\(offset)",
 			"limit": "\(limit)",
 			"sort_by": sortBy,
-			"sort_direction": "desc",
-			"additional": "[\"genre\",\"summary\"]",
-			"library_id": "0"
+			"sort_direction": "asc",
+			"additional": "[\"summary\"]",
 		]
-		
-		if let genreValue = genre {
-			parameters["genre"] = "[\"\(genreValue)\"]"
-		}
 		
 		func returnError() {
 			success(shows: nil, total:0, offset: offset, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
@@ -169,27 +164,27 @@ class MovieAPI
 		}
 	}
 	
-	func getTVShow(id:Int,
-		success: ((tvShow: SynologyMediaItem?, error: NSError?) -> Void))
+	func getTVShowEpisodes(id:Int,
+		success: ((episodes: [SynologyMediaItem]?, error: NSError?) -> Void))
 	{
 		
 		guard let hostname = preferences.stringForKey("HOSTNAME") else { return }
 		
 		var parameters = [
-			"api" : "SYNO.VideoStation.TVShow",
+			"api" : "SYNO.VideoStation.TVShowEpisode",
 			"version": "2",
-			"method": "getinfo",
-			"additional": "[\"poster_mtime\",\"summary\",\"watched_ratio\",\"collection\",\"file\",\"actor\",\"write\",\"director\",\"genre\",\"extra\"]",
-			"id": "\(id)"
+			"method": "list",
+			"additional": "[\"summary\"]",
+			"tvshow_id": "\(id)"
 		]
 		
 		func returnError() {
-			success(tvShow: nil, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
+			success(episodes: nil, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
 		}
 		
 		httpManager
 			.request(.GET,
-				"http://\(hostname):5000/webapi/VideoStation/tvshow.cgi",
+				"http://\(hostname):5000/webapi/VideoStation/tvshow_episode.cgi",
 				parameters: parameters)
 			.response { request, response, data, error in
 				
@@ -205,9 +200,9 @@ class MovieAPI
 				
 				let json = JSON(data: jsonData)
 				
-				if let jsonArray = json["data"]["movies"].array {
-					let shows:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
-					success(tvShow: shows[0], error: nil)
+				if let jsonArray = json["data"]["episodes"].array {
+					let episodes:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
+					success(episodes: episodes, error: nil)
 					return
 				}
 				
@@ -215,13 +210,61 @@ class MovieAPI
 		}
 	}
 
+	func getEpisode(id:Int,
+		success: ((episode: SynologyMediaItem?, error: NSError?) -> Void))
+	{
+		
+		guard let hostname = preferences.stringForKey("HOSTNAME") else { return }
+		
+		var parameters = [
+			"api" : "SYNO.VideoStation.TVShowEpisode",
+			"version": "2",
+			"method": "getinfo",
+			"additional": "[\"summary\",\"file\",\"actor\",\"writer\",\"director\",\"extra\",\"genre\",\"collection\",\"poster_mtime\",\"watched_ratio\"]",
+			"id": "\(id)"
+		]
+		
+		func returnError() {
+			success(episode: nil, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
+		}
+		
+		httpManager
+			.request(.GET,
+				"http://\(hostname):5000/webapi/VideoStation/tvshow_episode.cgi",
+				parameters: parameters)
+			.response { request, response, data, error in
+				
+				if error != nil {
+					returnError()
+					return
+				}
+				
+				guard let jsonData = data else {
+					returnError()
+					return
+				}
+				
+				let json = JSON(data: jsonData)
+				
+				if let jsonArray = json["data"]["episodes"].array {
+					let episodes:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
+					success(episode: episodes[0], error: nil)
+					return
+				}
+				
+				returnError()
+		}
+	}
+	
 	
 	func makeMediaItem(mediaJson:JSON)->SynologyMediaItem {
 		var media = SynologyMediaItem()
 		media.id = mediaJson["id"].int
 		media.title = mediaJson["title"].string
+		media.sortTitle = mediaJson["sort_title"].string
 		media.tagline = mediaJson["tagline"].string
 		media.certificate = mediaJson["certificate"].string
+		media.showId = mediaJson["tvshow_id"].int
 		let additional = mediaJson["additional"].dictionary
 		
 		

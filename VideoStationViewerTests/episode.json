@@ -1,0 +1,57 @@
+{
+	"data": {
+		"episodes": [{
+					 "additional": {
+					 "actor": ["Jason Lee", "Ethan Suplee", "Jaime Pressly", "Nadine Velazquez", "Eddie Steeples", "Jessica Cauffiel", "Juan Pope", "Josh Wolf", "Harry Karp", "Arne Starr", "Mary Castro", "Andrea Fellers"],
+					 "director": ["Marc Buckland"],
+					 "extra": "{\n   \"com.synology.Synovideodb\" : {\n      \"rating\" : {\n         \"synovideodb\" : 7.90\n      },\n      \"reference\" : {\n         \"synovideodb\" : \"im_911527\"\n      }\n   },\n   \"com.synology.TheTVDB\" : {\n      \"poster\" : [ \"http://www.thetvdb.com/banners/episodes/75397/307880.jpg\" ],\n      \"rating\" : {\n         \"thetvdb\" : 7.30\n      },\n      \"reference\" : {\n         \"thetvdb\" : \"307880\"\n      }\n   }\n}\n",
+					 "file": [{
+							  "audio_bitrate": 127616,
+							  "audio_codec": "aac_lc",
+							  "channel": 2,
+							  "container_type": "mp4",
+							  "display_x": 640,
+							  "display_y": 360,
+							  "duration": "0:20:33",
+							  "ff_video_profile": -99,
+							  "filesize": 245644233,
+							  "frame_bitrate": 1592689,
+							  "frame_rate_den": 125,
+							  "frame_rate_num": 2997,
+							  "frequency": 44100,
+							  "id": 1071,
+							  "path": "/volume1/video/TV show/My Name Is Earl/Season 2/01 Very Bad Things.m4v",
+							  "position": 0,
+							  "resolutionx": 640,
+							  "resolutiony": 360,
+							  "rotation": 0,
+							  "sharepath": "/video/TV show/My Name Is Earl/Season 2/01 Very Bad Things.m4v",
+							  "video_bitrate": 1455311,
+							  "video_codec": "none",
+							  "video_level": 0,
+							  "video_profile": 0,
+							  "watched_ratio": 0.0
+							  }],
+					 "genre": ["Comedy"],
+					 "summary": "When Joy and Darnell get into an argument over her surprise birthday, Earl jumps at the opportunity to cross off number 183 on his list “Never took Joy’s side”. Meanwhile Joy runs into various problems after trying to return a television set she recently purchased.",
+					 "tvshow_summary": "",
+					 "watched_ratio": 0.0,
+					 "writer": ["Gregory Thomas Garcia", "Michael Pennie"]
+					 },
+					 "certificate": "",
+					 "episode": 1,
+					 "id": 662,
+					 "last_watched": 0,
+					 "mapper_id": 2983,
+					 "metadata_locked": false,
+					 "original_available": "2006-09-21",
+					 "season": 2,
+					 "sort_title": "My Name Is Earl",
+					 "tagline": "Very Bad Things",
+					 "title": "My Name Is Earl",
+					 "tvshow_id": 118,
+					 "tvshow_original_available": "2005-09-20"
+					 }]
+	},
+	"success": true
+}

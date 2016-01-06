@@ -36,6 +36,8 @@
 		78090E9E1C3740250091BFB5 /* Director+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78090E831C3740250091BFB5 /* Director+CoreDataProperties.swift */; };
 		78090E9F1C3740250091BFB5 /* Director.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78090E841C3740250091BFB5 /* Director.swift */; };
 		78090EA01C3740250091BFB5 /* Director.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78090E841C3740250091BFB5 /* Director.swift */; };
+		781379081C3DC6F300210A44 /* episodes.json in Resources */ = {isa = PBXBuildFile; fileRef = 781379071C3DC6F300210A44 /* episodes.json */; };
+		7813790A1C3DCB2D00210A44 /* episode.json in Resources */ = {isa = PBXBuildFile; fileRef = 781379091C3DCB2D00210A44 /* episode.json */; };
 		78204B3E1BDD8027003DCBF3 /* SynologyMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78204B381BDD8026003DCBF3 /* SynologyMediaItem.swift */; };
 		78204B3F1BDD8027003DCBF3 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78204B391BDD8026003DCBF3 /* MovieDetailViewController.swift */; };
 		78204B401BDD8027003DCBF3 /* MovieAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78204B3A1BDD8027003DCBF3 /* MovieAPI.swift */; };
@@ -114,6 +116,8 @@
 		78090E821C3740250091BFB5 /* Genre.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		78090E831C3740250091BFB5 /* Director+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Director+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		78090E841C3740250091BFB5 /* Director.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Director.swift; sourceTree = "<group>"; };
+		781379071C3DC6F300210A44 /* episodes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = episodes.json; sourceTree = "<group>"; };
+		781379091C3DCB2D00210A44 /* episode.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = episode.json; sourceTree = "<group>"; };
 		78204B381BDD8026003DCBF3 /* SynologyMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynologyMediaItem.swift; sourceTree = "<group>"; };
 		78204B391BDD8026003DCBF3 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		78204B3A1BDD8027003DCBF3 /* MovieAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieAPI.swift; sourceTree = "<group>"; };
@@ -195,6 +199,8 @@
 				7868E7151C35A450002B7FF6 /* movietitles.json */,
 				7868E7171C35C3AC002B7FF6 /* movie.json */,
 				78E090D41C3722240024459D /* tvshows.json */,
+				781379071C3DC6F300210A44 /* episodes.json */,
+				781379091C3DCB2D00210A44 /* episode.json */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -470,7 +476,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7868E7181C35C3AC002B7FF6 /* movie.json in Resources */,
+				781379081C3DC6F300210A44 /* episodes.json in Resources */,
 				78E090D51C3722240024459D /* tvshows.json in Resources */,
+				7813790A1C3DCB2D00210A44 /* episode.json in Resources */,
 				7868E7161C35A450002B7FF6 /* movietitles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

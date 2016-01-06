@@ -18,6 +18,8 @@ class MovieImportServiceTests: XCTestCase {
 		coreDataHelper.reset()
 	}
 
+	// MARK - Movies
+	
     func testImportMoviesImportsAllMovies() {
         
         let expectation = self.expectationWithDescription("Get many movies")
@@ -258,6 +260,42 @@ class MovieImportServiceTests: XCTestCase {
 			error in XCTAssertNil(error, "Oh, we got timeout")
 		})
 	}
-
+	
+	// MARK - Episodes
+	func testImportEpisodesImportsAllEpisodes() {
+		XCTFail()
+	}
+	
+	func testImportEpisodesImportsEpisodeSmm() {
+		XCTFail()
+	}
+	
+	func testImportEpisodesImportsGenres() {
+		XCTFail()
+	}
+	
+	func testImportEpisodesJoinsGenresToEpisodes() {
+		XCTFail()
+	}
+	
+	func testImportEpisodesJoinesEpisodesToGenres() {
+		
+	}
+	
+	func testImportEpisodeDetails() {
+		
+	}
+	
+	func testImportShowsGetsAllShows() {
+		
+	}
+	
+	func testJoinShowsJoinsAShowToItsEpisodes() {
+		
+	}
+	
+	func testJoinShowsJoinsEpisodesToAShow() {
+		
+	}
 
 }

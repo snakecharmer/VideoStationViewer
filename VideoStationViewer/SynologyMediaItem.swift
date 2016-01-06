@@ -9,6 +9,8 @@ struct SynologyMediaItem: Equatable {
 	var fileId: Int!
 	var summary: String!
 	var genre: [String]!
+	var sortTitle: String!
+	var showId: Int!
 	
 	var identifier: String {
 		return "\(id)"
