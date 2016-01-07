@@ -11,6 +11,11 @@ struct SynologyMediaItem: Equatable {
 	var genre: [String]!
 	var sortTitle: String!
 	var showId: Int!
+	var actor = [String]()
+	var director = [String]()
+	var writer = [String]()
+	var episode: Int!
+	var season: Int!
 	
 	var identifier: String {
 		return "\(id)"

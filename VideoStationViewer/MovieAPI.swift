@@ -265,6 +265,8 @@ class MovieAPI
 		media.tagline = mediaJson["tagline"].string
 		media.certificate = mediaJson["certificate"].string
 		media.showId = mediaJson["tvshow_id"].int
+		media.season = mediaJson["season"].int
+		media.episode = mediaJson["episode"].int
 		let additional = mediaJson["additional"].dictionary
 		
 		
@@ -286,6 +288,32 @@ class MovieAPI
 			
 			media.genre = genre
 		}
+		
+		if let actorsJson = additional!["actor"]?.array {
+			var actors = [String]()
+			for actorsItem in actorsJson {
+				actors.append(actorsItem.stringValue)
+			}
+			media.actor = actors
+		}
+
+		if let writersJson = additional!["writer"]?.array {
+			var writers = [String]()
+			for writersItem in writersJson {
+				writers.append(writersItem.stringValue)
+			}
+			media.writer = writers
+		}
+		
+		if let directorsJson = additional!["director"]?.array {
+			var directors = [String]()
+			for directorsItem in directorsJson {
+				directors.append(directorsItem.stringValue)
+			}
+			media.director = directors
+		}
+		
+		
 		return media
 	}
 	func makeMediaItems(mediaJson:[JSON])->[SynologyMediaItem] {

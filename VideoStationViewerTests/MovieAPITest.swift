@@ -216,6 +216,8 @@ class MovieAPITest: XCTestCase {
                 XCTAssert(movieValue.genre.contains("Biography"))
                 XCTAssert(movieValue.genre.contains("Drama"))
                 XCTAssert(movieValue.genre.contains("History"))
+				XCTAssertEqual("Chiwetel Ejiofor", movieValue.actor[0])
+				XCTAssertEqual("Steve McQueen", movieValue.director[0])	
             } else {
                 XCTFail()
             }
@@ -332,7 +334,6 @@ class MovieAPITest: XCTestCase {
 
 	}
 
-
 	func testGetEpisodeGetsMoreEpisodeDetails() {
 		let expectation = self.expectationWithDescription("testGetShowEpisodes")
 		
@@ -367,6 +368,13 @@ class MovieAPITest: XCTestCase {
 				XCTAssertEqual("When Joy", episodeValue.summary.substringToIndex(episodeValue.summary.startIndex.advancedBy(8)))
 				XCTAssertEqual(118, episodeValue.showId)
 				XCTAssertEqual(662, episodeValue.id)
+				XCTAssertEqual(1071, episodeValue.fileId)
+				XCTAssertEqual("Comedy", episodeValue.genre[0])
+				XCTAssertEqual("Jason Lee", episodeValue.actor[0])
+				XCTAssertEqual("Marc Buckland", episodeValue.director[0])
+				XCTAssertEqual("Gregory Thomas Garcia", episodeValue.writer[0])
+				XCTAssertEqual(1, episodeValue.episode)
+				XCTAssertEqual(2, episodeValue.season)
 			} else {
 				XCTFail()
 			}
@@ -378,6 +386,5 @@ class MovieAPITest: XCTestCase {
 			error in XCTAssertNil(error, "Oh, we got timeout")
 		})
 	}
-
 	
 }
