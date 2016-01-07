@@ -261,40 +261,97 @@ class MovieImportServiceTests: XCTestCase {
 		})
 	}
 	
-	// MARK - Episodes
-	func testImportEpisodesImportsAllEpisodes() {
-		XCTFail()
-	}
-	
-	func testImportEpisodesImportsEpisodeSmm() {
-		XCTFail()
-	}
-	
-	func testImportEpisodesImportsGenres() {
-		XCTFail()
-	}
-	
-	func testImportEpisodesJoinsGenresToEpisodes() {
-		XCTFail()
-	}
-	
-	func testImportEpisodesJoinesEpisodesToGenres() {
-		
-	}
-	
-	func testImportEpisodeDetails() {
-		
-	}
-	
 	func testImportShowsGetsAllShows() {
+		let expectation = self.expectationWithDescription("Get shows")
+		self.movieImportService.importShows { (total, error) -> Void in
+			
+			let fetchRequest = NSFetchRequest(entityName: "Show")
+			
+			do {
+				
+				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Show]
+				XCTAssertEqual(results.count, 2)
+				
+			} catch let error as NSError {
+				print("Could not fetch \(error), \(error.userInfo)")
+			}
+			
+			XCTAssert(total > 0);
+			expectation.fulfill()
+		}
 		
+		self.waitForExpectationsWithTimeout(500, handler: {
+			error in XCTAssertNil(error, "Oh, we got timeout")
+		})
 	}
 	
-	func testJoinShowsJoinsAShowToItsEpisodes() {
+	func testImportShowsParsesAllShowFields() {
+		let expectation = self.expectationWithDescription("Get show fields")
+		self.movieImportService.importShows { (total, error) -> Void in
+			
+			let fetchRequest = NSFetchRequest(entityName: "Show")
+			
+			do {
+				
+				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Show]
+				let show = results[0]
+				XCTAssertEqual("Test Title 1", show.title)
+				XCTAssertEqual("Test Summary 1", show.summary)
+				XCTAssertEqual(1, show.id)
+				
+			} catch let error as NSError {
+				print("Could not fetch \(error), \(error.userInfo)")
+			}
+			
+			expectation.fulfill()
+		}
 		
+		self.waitForExpectationsWithTimeout(500, handler: {
+			error in XCTAssertNil(error, "Oh, we got timeout")
+		})
 	}
 	
-	func testJoinShowsJoinsEpisodesToAShow() {
+	func testImportShowGetsEpisodeSummaries() {
+		let expectation = self.expectationWithDescription("Get show fields")
+		self.movieImportService.importShows { (total, error) -> Void in
+			
+			let fetchRequest = NSFetchRequest(entityName: "Show")
+			
+			do {
+				
+				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Show]
+				let show = results[0]
+				if let episodes = show.episodes {
+					XCTAssertEqual(3, episodes.count)
+
+					let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+					let episodesArray = episodes.sortedArrayUsingDescriptors([descriptor]) as! [Episode]
+					let episode = episodesArray[0]
+					
+					XCTAssertEqual(1, episode.id!)
+					XCTAssertEqual("Test Title 1", episode.title!)
+					XCTAssertEqual("Test Summary 1", episode.summary!)
+					XCTAssertEqual("Tagline 1", episode.tagline!)
+					XCTAssertEqual(show, episode.show)
+				} else {
+					XCTFail()
+				}
+				
+			} catch let error as NSError {
+				print("Could not fetch \(error), \(error.userInfo)")
+			}
+			
+
+			expectation.fulfill()
+		}
+		
+		self.waitForExpectationsWithTimeout(500, handler: {
+			error in XCTAssertNil(error, "Oh, we got timeout")
+		})
+	}
+	
+	
+	func testImportEpisodeGetsEpisodeDetails() {
 		
 	}
 

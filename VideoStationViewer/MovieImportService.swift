@@ -114,4 +114,82 @@ class MovieImportService {
 		
 	}
 	
+	
+	func importShows(success:(total:Int, error : NSError?) -> Void) {
+
+		movieAPI.getTVShows { (shows, total, offset, error) -> Void in
+
+			let moc = self.moc
+			
+			if let showsValue = shows {
+				
+				var toProcess = showsValue.count
+				let showEntity =  NSEntityDescription.entityForName("Show", inManagedObjectContext: moc)
+				
+				
+				for synologyShow in showsValue {
+					let show = NSManagedObject(entity: showEntity!, insertIntoManagedObjectContext: moc) as! Show
+					show.title = synologyShow.title
+					show.id = synologyShow.id
+					show.summary = synologyShow.summary
+					
+					self.getShowEpisodes(show, success: { (error) -> Void in
+						toProcess--
+							
+						if toProcess == 0 {
+							success(total: showsValue.count, error: nil)
+						}
+
+					})
+
+				}
+			}
+		}
+	}
+	
+	func getShowEpisodes(show: Show, success:(error: NSError?) -> Void) {
+		
+		self.movieAPI.getTVShowEpisodes((show.id?.integerValue)!, success: { (episodes, error) -> Void in
+			
+			if let synologyEpisodes = episodes {
+				
+				var episodeEntities = [Episode]()
+				
+				for synologyEpisode in synologyEpisodes {
+					let episode = self.makeEpisodeFromSynologyMediaItem(synologyEpisode)
+					episode.show = show
+					episodeEntities.append(episode)
+				}
+				
+				show.episodes = NSSet(array: episodeEntities)
+				success(error: nil)
+			}
+		})
+	
+	}
+	
+	func makeEpisodeFromSynologyMediaItem(sourceEpisode: SynologyMediaItem) -> Episode {
+		let entity =  NSEntityDescription.entityForName("Episode", inManagedObjectContext: moc)
+		let episode = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: moc) as! Episode
+		
+		episode.id = sourceEpisode.id
+		episode.title = sourceEpisode.title
+		episode.summary = sourceEpisode.summary
+		episode.fileId = sourceEpisode.fileId
+		episode.tagline = sourceEpisode.tagline
+		
+		if let synologyEpisodeGenres = sourceEpisode.genre {
+			var genreArray = [Genre]()
+			for genre in synologyEpisodeGenres {
+				let genreEntity = self.getGenreEntity(genre)
+				if let genreEntityValue = genreEntity {
+					genreArray.append(genreEntityValue)
+				}
+			}
+			episode.genres = NSSet(array: genreArray)
+		}
+		
+		return episode
+	}
+	
 }
