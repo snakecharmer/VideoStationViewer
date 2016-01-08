@@ -1,9 +1,10 @@
 import Foundation
 import CoreData
 
-class MovieImportService {
+final class MovieImportService : MovieImportServiceProtocol {
 	
 	var movieAPI = MovieAPI.sharedInstance
+	var movieRepository = MovieRepository.sharedInstance
 	var moc:NSManagedObjectContext!
 	
 	init(moc:NSManagedObjectContext) {
@@ -114,7 +115,6 @@ class MovieImportService {
 		
 	}
 	
-	
 	func importShows(success:(total:Int, error : NSError?) -> Void) {
 
 		movieAPI.getTVShows { (shows, total, offset, error) -> Void in
@@ -192,4 +192,37 @@ class MovieImportService {
 		return episode
 	}
 	
+	func importEpisodeDetails(id:Int, success:(episode:Episode?, error : NSError?) -> Void) {
+		self.movieAPI.getEpisode(id) { (episode, error) -> Void in
+			if let episodeValue = episode {
+				
+				let episodeEntity = self.makeEpisodeFromSynologyMediaItem(episodeValue)
+				episodeEntity.isContainsDetail = true
+				
+				self.movieRepository.getShow(id, success: { (show, error) -> Void in
+					
+					// link the show to the episode
+					episodeEntity.show = show
+					
+					// And replace the existing episode in the show with the expanded one
+					var index = 0;
+					var episodes = show?.episodes?.allObjects as! [Episode]
+					
+					while index < episodes.count {
+						if episodes[index].id == id {
+							episodes[index] = episodeEntity
+						}
+						index++
+					}
+					
+					success(episode: episodeEntity, error: nil)
+				})
+				
+				return
+				
+			} else {
+				success(episode: nil, error: nil)
+			}
+		}
+	}
 }

@@ -2,11 +2,10 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 
-class MovieAPI
+class MovieAPI:MovieAPIProtocol
 {
 	
 	static let sharedInstance = MovieAPI()
-	
 	private let preferences:NSUserDefaults = NSUserDefaults.standardUserDefaults()
 	private let httpManager:Alamofire.Manager = Alamofire.Manager()
 	

@@ -4,16 +4,12 @@ import CoreData
 class MovieRepositoryTests: XCTestCase {
 	
 	let coreDataHelper = TestCoreDataHelper()
-	let movieRepository = MovieRepository.sharedInstance
-	var movieImportService:TestMovieImportService?
+	var movieRepository:MovieRepository?
+
 	
     override func setUp() {
 		super.setUp()
-		self.movieImportService = TestMovieImportService(moc: coreDataHelper.managedObjectContext!)
-        self.movieImportService?.movieAPI = TestMovieApi()
-		
-		movieRepository.moc = coreDataHelper.managedObjectContext
-		movieRepository.movieImportService = movieImportService
+		self.movieRepository = MovieRepository(moc: self.coreDataHelper.managedObjectContext!)
     }
     
     override func tearDown() {
@@ -26,14 +22,6 @@ class MovieRepositoryTests: XCTestCase {
 		
 		let expectation = expectationWithDescription("testGetMovieCallsAPIIfOnlyHasSummary")
 		
-		// setup a movie that the import service will provide
-		var movieDetail = SynologyMediaItem()
-		movieDetail.id = 1
-		movieDetail.title = "TEST TEST TEST"
-		movieDetail.summary = "This is a summary"
-		movieDetail.fileId = 99
-		self.movieImportService?.movie = movieDetail
-		
 		// Setup a movie in the moc that is only partly populated.
 		let entity =  NSEntityDescription.entityForName("Movie", inManagedObjectContext: coreDataHelper.managedObjectContext!)
 		let dbMovie = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: coreDataHelper.managedObjectContext!) as! Movie
@@ -42,7 +30,7 @@ class MovieRepositoryTests: XCTestCase {
 		dbMovie.summary = "This is a summary"
 		dbMovie.containsDetail = false
 	
-		movieRepository.getMovie(1) { (movie, error) -> Void in
+		movieRepository!.getMovie(1) { (movie, error) -> Void in
 			if let movieValue = movie {
 				XCTAssert(movieValue.id?.integerValue == 1)
 				XCTAssert(movieValue.title! == "TEST TEST TEST")
@@ -63,16 +51,6 @@ class MovieRepositoryTests: XCTestCase {
 	func testGetMovieDoesntCallAPIIfHasDetail() {
 		
 		let expectation = expectationWithDescription("Get Movie From DB")
-
-		// setup a movie that the import service will provide
-		var movieDetail = SynologyMediaItem()
-		movieDetail.id = 1
-		movieDetail.title = "TEST TEST TEST"
-		movieDetail.summary = "This is a summary"
-		movieDetail.fileId = 55
-		self.movieImportService?.movie = movieDetail
-		
-		
 		let entity =  NSEntityDescription.entityForName("Movie", inManagedObjectContext: coreDataHelper.managedObjectContext!)
 		let dbMovie = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: coreDataHelper.managedObjectContext!) as! Movie
 		
@@ -82,7 +60,7 @@ class MovieRepositoryTests: XCTestCase {
 		dbMovie.fileId = 99
 		dbMovie.containsDetail = true
 		
-		movieRepository.getMovie(88) { (movie, error) -> Void in
+		movieRepository!.getMovie(88) { (movie, error) -> Void in
 			if let movieValue = movie {
 				XCTAssert(movieValue.fileId?.integerValue == 99)
 			} else {
@@ -101,7 +79,7 @@ class MovieRepositoryTests: XCTestCase {
     func testGetMovieGenresOnlyReturnsGenresWithMovies() {
         self.setupModel()
         
-        let genres = self.movieRepository.getGenres("Movie")
+        let genres = self.movieRepository!.getGenres("Movie")
         XCTAssertEqual(1, genres.count)
     }
 	
@@ -111,7 +89,7 @@ class MovieRepositoryTests: XCTestCase {
 		
 		self.setupModel()
         
-		self.movieRepository.getEntitySummariesForGenre("Comedy") { (movies, error) -> Void in
+		self.movieRepository!.getEntitySummariesForGenre("Comedy") { (movies, error) -> Void in
 			
 			if let movieValues = movies {
 				for movie in movieValues {

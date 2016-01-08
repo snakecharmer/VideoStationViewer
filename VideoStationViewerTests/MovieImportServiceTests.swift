@@ -2,7 +2,7 @@ import XCTest
 import CoreData
 
 class MovieImportServiceTests: XCTestCase {
-	
+/*
 	var movieImportService:MovieImportService!
 	let coreDataHelper = TestCoreDataHelper()
 	
@@ -310,6 +310,42 @@ class MovieImportServiceTests: XCTestCase {
 			error in XCTAssertNil(error, "Oh, we got timeout")
 		})
 	}
+
+	func testImportShowLinksToEpisodeAndBack() {
+		let expectation = self.expectationWithDescription("Get show fields")
+		self.movieImportService.importShows { (total, error) -> Void in
+			
+			let fetchRequest = NSFetchRequest(entityName: "Show")
+			
+			do {
+				
+				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Show]
+				let show = results[0]
+				if let episodes = show.episodes {
+					XCTAssertEqual(3, episodes.count)	//show has 3 episodes
+					
+					let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+					let episodesArray = episodes.sortedArrayUsingDescriptors([descriptor]) as! [Episode]
+					let episode = episodesArray[0]
+					
+					// Episode is linked back to show
+					XCTAssertEqual(show, episode.show)
+				} else {
+					XCTFail()
+				}
+				
+			} catch let error as NSError {
+				print("Could not fetch \(error), \(error.userInfo)")
+			}
+			
+			
+			expectation.fulfill()
+		}
+		
+		self.waitForExpectationsWithTimeout(500, handler: {
+			error in XCTAssertNil(error, "Oh, we got timeout")
+		})
+	}
 	
 	func testImportShowGetsEpisodeSummaries() {
 		let expectation = self.expectationWithDescription("Get show fields")
@@ -322,17 +358,16 @@ class MovieImportServiceTests: XCTestCase {
 				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Show]
 				let show = results[0]
 				if let episodes = show.episodes {
-					XCTAssertEqual(3, episodes.count)
-
 					let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
 					let episodesArray = episodes.sortedArrayUsingDescriptors([descriptor]) as! [Episode]
 					let episode = episodesArray[0]
-					
+
+					// episode fields populated
 					XCTAssertEqual(1, episode.id!)
 					XCTAssertEqual("Test Title 1", episode.title!)
 					XCTAssertEqual("Test Summary 1", episode.summary!)
 					XCTAssertEqual("Tagline 1", episode.tagline!)
-					XCTAssertEqual(show, episode.show)
+
 				} else {
 					XCTFail()
 				}
@@ -350,9 +385,63 @@ class MovieImportServiceTests: XCTestCase {
 		})
 	}
 	
-	
 	func testImportEpisodeGetsEpisodeDetails() {
 		
+		let expectation = self.expectationWithDescription("Get show fields")
+		
+		self.movieImportService.importEpisodeDetails(62) { (episode, error) -> Void in
+			
+			if let episodeValue = episode {
+				XCTAssertEqual(1, episodeValue.id!)
+				XCTAssertEqual("Test Title 1", episodeValue.title!)
+				XCTAssertEqual("Test Summary 1", episodeValue.summary!)
+				XCTAssertEqual("Tagline 1", episodeValue.tagline!)
+				
+			} else {
+				XCTFail()
+			}
+
+			
+			expectation.fulfill()
+		}
+		
+		self.waitForExpectationsWithTimeout(500, handler: {
+			error in XCTAssertNil(error, "Oh, we got timeout")
+		})
 	}
+	
+	func testImportEpisodeDetailsLinksToShow() {
+		
+		// setup a test show in the DB for the episode we import
+		// todo 
+		NSLog(" THIS     I S    A  TEST")
+		
+		
+		let expectation = self.expectationWithDescription("Get show fields")
+		
+		self.movieImportService.importEpisodeDetails(62) { (episode, error) -> Void in
+			
+			if let episodeValue = episode {
+				XCTAssertEqual("Test Show Title 1", episodeValue.show?.title!)
+			} else {
+				XCTFail()
+			}
+			
+			
+			expectation.fulfill()
+		}
+		
+		self.waitForExpectationsWithTimeout(500, handler: {
+			error in XCTAssertNil(error, "Oh, we got timeout")
+		})
+	}
+*/
+	
+	// Test that importing a show marks the episisode as partly populated.
+	
+	// Test that when you get a episode the episode in the show is updated to the full version
+
+	
+
 
 }

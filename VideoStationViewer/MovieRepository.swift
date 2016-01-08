@@ -8,11 +8,17 @@ class MovieRepository {
 	var moc:NSManagedObjectContext!
 	var movieApi:MovieAPI!
 	var movieImportService:MovieImportService!
-	
+
 	init(moc:NSManagedObjectContext) {
 		self.moc = moc
+		self.movieImportService = MovieImportService(moc: self.moc)
 		self.movieApi = MovieAPI.sharedInstance
-		self.movieImportService = MovieImportService(moc: moc)
+	}
+	
+	init(moc:NSManagedObjectContext, movieImportService:MovieImportService, movieApi:MovieAPI) {
+		self.moc = moc
+		self.movieApi = movieApi
+		self.movieImportService = movieImportService
 	}
 	
 	func getEntitySummariesForGenre(genre:String, entityType:String = "Movie",
@@ -83,8 +89,28 @@ class MovieRepository {
 		}
 		
 	}
-
 	
+	func getShow(id:Int, success: ((show: Show?, error: NSError?) -> Void))
+	{
+		let fetchRequest = NSFetchRequest(entityName: "Show")
+		fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+		
+		do {
+			let results = try self.moc.executeFetchRequest(fetchRequest) as![Show]
+			if results.count > 0 {
+				let show = results[0]
+				success(show: show, error: nil)
+				return
+			}
+			
+		} catch {
+			
+		}
+		
+		success(show: nil, error: nil)
+		return;
+		
+	}
 
 
 }
