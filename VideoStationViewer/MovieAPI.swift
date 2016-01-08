@@ -2,7 +2,7 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 
-class MovieAPI:MovieAPIProtocol
+class MovieAPI
 {
 	
 	static let sharedInstance = MovieAPI()
@@ -173,7 +173,7 @@ class MovieAPI:MovieAPIProtocol
 			"api" : "SYNO.VideoStation.TVShowEpisode",
 			"version": "2",
 			"method": "list",
-			"additional": "[\"summary\"]",
+			"additional": "[\"summary\",\"file\",\"actor\",\"writer\",\"director\",\"extra\",\"genre\",\"collection\",\"poster_mtime\",\"watched_ratio\"]",
 			"tvshow_id": "\(id)"
 		]
 		
@@ -208,55 +208,11 @@ class MovieAPI:MovieAPIProtocol
 				returnError()
 		}
 	}
-
-	func getEpisode(id:Int,
-		success: ((episode: SynologyMediaItem?, error: NSError?) -> Void))
-	{
-		
-		guard let hostname = preferences.stringForKey("HOSTNAME") else { return }
-		
-		var parameters = [
-			"api" : "SYNO.VideoStation.TVShowEpisode",
-			"version": "2",
-			"method": "getinfo",
-			"additional": "[\"summary\",\"file\",\"actor\",\"writer\",\"director\",\"extra\",\"genre\",\"collection\",\"poster_mtime\",\"watched_ratio\"]",
-			"id": "\(id)"
-		]
-		
-		func returnError() {
-			success(episode: nil, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
-		}
-		
-		httpManager
-			.request(.GET,
-				"http://\(hostname):5000/webapi/VideoStation/tvshow_episode.cgi",
-				parameters: parameters)
-			.response { request, response, data, error in
-				
-				if error != nil {
-					returnError()
-					return
-				}
-				
-				guard let jsonData = data else {
-					returnError()
-					return
-				}
-				
-				let json = JSON(data: jsonData)
-				
-				if let jsonArray = json["data"]["episodes"].array {
-					let episodes:[SynologyMediaItem] = self.makeMediaItems(jsonArray)
-					success(episode: episodes[0], error: nil)
-					return
-				}
-				
-				returnError()
-		}
-	}
+    
+	func getEpisode(id: Int, success: ((episode: SynologyMediaItem?, error: NSError?) -> Void)) {
+    }
 	
-	
-	func makeMediaItem(mediaJson:JSON)->SynologyMediaItem {
+    func makeMediaItem(mediaJson:JSON)->SynologyMediaItem {
 		var media = SynologyMediaItem()
 		media.id = mediaJson["id"].int
 		media.title = mediaJson["title"].string

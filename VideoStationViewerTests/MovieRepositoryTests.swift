@@ -5,11 +5,11 @@ class MovieRepositoryTests: XCTestCase {
 	
 	let coreDataHelper = TestCoreDataHelper()
 	var movieRepository:MovieRepository?
-
 	
     override func setUp() {
 		super.setUp()
-		self.movieRepository = MovieRepository(moc: self.coreDataHelper.managedObjectContext!)
+        self.movieRepository = MovieRepository(moc: self.coreDataHelper.managedObjectContext!)
+        self.movieRepository?.movieImportService = TestMovieImportService(moc: self.coreDataHelper.managedObjectContext!)
     }
     
     override func tearDown() {
@@ -17,7 +17,6 @@ class MovieRepositoryTests: XCTestCase {
 		coreDataHelper.reset()
     }
     
-
 	func testGetMovieCallsAPIIfOnlyHasSummary() {
 		
 		let expectation = expectationWithDescription("testGetMovieCallsAPIIfOnlyHasSummary")
@@ -32,10 +31,10 @@ class MovieRepositoryTests: XCTestCase {
 	
 		movieRepository!.getMovie(1) { (movie, error) -> Void in
 			if let movieValue = movie {
-				XCTAssert(movieValue.id?.integerValue == 1)
-				XCTAssert(movieValue.title! == "TEST TEST TEST")
-				XCTAssert(movieValue.summary! == "This is a summary")
-				XCTAssert(movieValue.fileId?.integerValue == 99)
+				XCTAssertEqual(movieValue.id?.integerValue, 1)
+				XCTAssertEqual(movieValue.title!, "Movie Detail")
+				XCTAssertEqual(movieValue.summary!, "Movie Summary")
+				XCTAssertEqual(movieValue.fileId?.integerValue, 99)
 			} else {
 				XCTFail()
 			}

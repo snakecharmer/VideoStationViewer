@@ -1,18 +1,17 @@
 import Foundation
 
-class TestMovieApi:MovieAPIProtocol {
+class TestMovieAPI:MovieAPI {
 	
 	var movies:[SynologyMediaItem]?
 	var movie:SynologyMediaItem?
 	
-	
-	func getMovie(id:Int,
+	override func getMovie(id:Int,
 		success: ((movie: SynologyMediaItem?, error: NSError?) -> Void))
 	{
 		success(movie: movie, error: nil)
 	}
 	
-    func getMovieTitles(offset:Int=0, genre:String? = nil, limit:Int=99999, sortBy:String="added",
+    override func getMovieTitles(offset:Int=0, genre:String? = nil, limit:Int=99999, sortBy:String="added",
         success: ((movies: [SynologyMediaItem]?, total: Int, offset: Int, error: NSError?) -> Void))
     {
         
@@ -33,7 +32,7 @@ class TestMovieApi:MovieAPIProtocol {
         
     }
 	
-	func getTVShows(offset: Int, limit: Int, sortBy: String, success: ((shows: [SynologyMediaItem]?, total: Int, offset: Int, error: NSError?) -> Void)) {
+	override func getTVShows(offset: Int, limit: Int, sortBy: String, success: ((shows: [SynologyMediaItem]?, total: Int, offset: Int, error: NSError?) -> Void)) {
 		// create 2 dummy shows
 		
 		var show1 = SynologyMediaItem()
@@ -52,7 +51,7 @@ class TestMovieApi:MovieAPIProtocol {
 		success(shows: [show1,show2], total: 2, offset: 0, error: nil)
 	}
 	
-	func getTVShowEpisodes(id: Int, success: ((episodes: [SynologyMediaItem]?, error: NSError?) -> Void)) {
+	override func getTVShowEpisodes(id: Int, success: ((episodes: [SynologyMediaItem]?, error: NSError?) -> Void)) {
 	
 		// create 3 dummy episodes
 		
@@ -84,7 +83,7 @@ class TestMovieApi:MovieAPIProtocol {
 		
 	}
 	
-	func getEpisode(id: Int, success: ((episode: SynologyMediaItem?, error: NSError?) -> Void)) {
+	override func getEpisode(id: Int, success: ((episode: SynologyMediaItem?, error: NSError?) -> Void)) {
 		var episode1 = SynologyMediaItem()
 		episode1.id = id
 		episode1.title = "Test Title 1"

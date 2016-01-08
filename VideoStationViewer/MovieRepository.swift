@@ -1,26 +1,18 @@
 import Foundation
 import CoreData
 
-class MovieRepository {
+final class MovieRepository {
 	
 	static let sharedInstance = MovieRepository(moc: CoreDataHelper.sharedInstance.managedObjectContext!)
 	
 	var moc:NSManagedObjectContext!
-	var movieApi:MovieAPI!
 	var movieImportService:MovieImportService!
 
 	init(moc:NSManagedObjectContext) {
 		self.moc = moc
 		self.movieImportService = MovieImportService(moc: self.moc)
-		self.movieApi = MovieAPI.sharedInstance
 	}
-	
-	init(moc:NSManagedObjectContext, movieImportService:MovieImportService, movieApi:MovieAPI) {
-		self.moc = moc
-		self.movieApi = movieApi
-		self.movieImportService = movieImportService
-	}
-	
+    
 	func getEntitySummariesForGenre(genre:String, entityType:String = "Movie",
 		success: ((mediaItems: [MediaItem]?, error: NSError?) -> Void))
 	{

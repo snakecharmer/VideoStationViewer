@@ -334,57 +334,5 @@ class MovieAPITest: XCTestCase {
 
 	}
 
-	func testGetEpisodeGetsMoreEpisodeDetails() {
-		let expectation = self.expectationWithDescription("testGetShowEpisodes")
-		
-		OHHTTPStubs.stubRequestsPassingTest({ (request: NSURLRequest) -> Bool in
-			
-			let url = request.URL!
-			XCTAssertEqual(url.path!, "/webapi/VideoStation/tvshow_episode.cgi")
-			XCTAssertEqual(url.host!, "test.com")
-			XCTAssertEqual(url.port!, 5000)
-			
-			if let query = url.query {
-				XCTAssert(query.containsString("id=662"))
-				XCTAssert(query.containsString("api=SYNO.VideoStation.TVShowEpisode"))
-				XCTAssert(query.containsString("version=2"))
-				XCTAssert(query.containsString("method=getinfo"))
-				XCTAssert(query.containsString("additional=%5B%22summary%22%2C%22file%22%2C%22actor%22%2C%22writer%22%2C%22director%22%2C%22extra%22%2C%22genre%22%2C%22collection%22%2C%22poster_mtime%22%2C%22watched_ratio%22%5D"))
-			} else {
-				XCTFail()
-			}
-			return true
-			
-			}, withStubResponse: { (request: NSURLRequest) -> OHHTTPStubsResponse in
-				return OHHTTPStubsResponse(fileAtPath:OHPathForFile("episode.json", self.dynamicType)!,
-					statusCode:200, headers:["Content-Type":"application/json"])
-		})
-
-		self.movieAPI.getEpisode(662) { (episode, error) -> Void in
-			
-			if let episodeValue = episode {
-				XCTAssertEqual("My Name Is Earl", episodeValue.title)
-				XCTAssertEqual("Very Bad Things", episodeValue.tagline)
-				XCTAssertEqual("When Joy", episodeValue.summary.substringToIndex(episodeValue.summary.startIndex.advancedBy(8)))
-				XCTAssertEqual(118, episodeValue.showId)
-				XCTAssertEqual(662, episodeValue.id)
-				XCTAssertEqual(1071, episodeValue.fileId)
-				XCTAssertEqual("Comedy", episodeValue.genre[0])
-				XCTAssertEqual("Jason Lee", episodeValue.actor[0])
-				XCTAssertEqual("Marc Buckland", episodeValue.director[0])
-				XCTAssertEqual("Gregory Thomas Garcia", episodeValue.writer[0])
-				XCTAssertEqual(1, episodeValue.episode)
-				XCTAssertEqual(2, episodeValue.season)
-			} else {
-				XCTFail()
-			}
-
-			expectation.fulfill()
-		}
-		
-		self.waitForExpectationsWithTimeout(500, handler: {
-			error in XCTAssertNil(error, "Oh, we got timeout")
-		})
-	}
 	
 }
