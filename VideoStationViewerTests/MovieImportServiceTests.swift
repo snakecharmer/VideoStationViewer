@@ -26,6 +26,8 @@ class MovieImportServiceTests: XCTestCase {
         self.movieImportService.importMovies { (total, error) -> Void in
             
             let fetchRequest = NSFetchRequest(entityName: "Movie")
+            let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+            fetchRequest.sortDescriptors = [descriptor]
             
             do {
                 
@@ -53,6 +55,8 @@ class MovieImportServiceTests: XCTestCase {
 			
 			let fetchRequest = NSFetchRequest(entityName: "Movie")
             fetchRequest.predicate = NSPredicate(format: "id == %d", 1)
+            let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+            fetchRequest.sortDescriptors = [descriptor]
 			
 			do {
 				let results = try self.coreDataHelper.managedObjectContext!.executeFetchRequest(fetchRequest) as![Movie]
@@ -290,6 +294,8 @@ class MovieImportServiceTests: XCTestCase {
 		self.movieImportService.importShows { (total, error) -> Void in
 			
 			let fetchRequest = NSFetchRequest(entityName: "Show")
+            let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+            fetchRequest.sortDescriptors = [descriptor]
 			
 			do {
 				
@@ -316,6 +322,8 @@ class MovieImportServiceTests: XCTestCase {
 		self.movieImportService.importShows { (total, error) -> Void in
 			
 			let fetchRequest = NSFetchRequest(entityName: "Show")
+            let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+            fetchRequest.sortDescriptors = [descriptor]
 			
 			do {
 				

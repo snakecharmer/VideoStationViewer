@@ -299,7 +299,7 @@ class MovieAPITest: XCTestCase {
 				XCTAssert(query.containsString("api=SYNO.VideoStation.TVShow"))
 				XCTAssert(query.containsString("version=2"))
 				XCTAssert(query.containsString("method=list"))
-				XCTAssert(query.containsString("additional=%5B%22summary%22%5D"))
+				XCTAssert(query.containsString("additional=%5B%22summary%22%2C%22file%22%2C%22actor%22%2C%22writer%22%2C%22director%22%2C%22extra%22%2C%22genre%22%2C%22collection%22%2C%22poster_mtime%22%2C%22watched_ratio%22%5D"))
 			} else {
 				XCTFail()
 			}
