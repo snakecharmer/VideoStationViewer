@@ -4,7 +4,7 @@ class PosterCollectionViewController: UICollectionViewController {
 	// MARK: Properties
 	
 	private static let minimumEdgePadding = CGFloat(90.0)
-	private var movieRepository:MovieRepository!
+    var entityRepository:EntityRepository!
 	private var genres = [Genre]()
 	private var listType = "Movie"
 	
@@ -14,7 +14,7 @@ class PosterCollectionViewController: UICollectionViewController {
 		super.viewDidLoad()
 		
 		let coreDataHelper = CoreDataHelper.sharedInstance
-		self.movieRepository = MovieRepository(moc: coreDataHelper.managedObjectContext!)
+		self.entityRepository = MovieRepository(moc: coreDataHelper.managedObjectContext!)
 		
 		// Make sure their is sufficient padding above and below the content.
 		guard let collectionView = collectionView, layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
@@ -27,7 +27,7 @@ class PosterCollectionViewController: UICollectionViewController {
 		super.viewWillAppear(animated)
 		
 		// Get a list of genres and then reload the collection, which in turn will load the media items for each genre
-		self.genres = movieRepository!.getGenres(self.listType)
+		self.genres = entityRepository!.getGenres()
 		self.collectionView!.reloadData()
 	}
 	
@@ -54,10 +54,9 @@ class PosterCollectionViewController: UICollectionViewController {
 		guard let cell = cell as? PosterStrip else { fatalError("Expected to display a `CollectionViewContainerCell`.") }
 		let genre = genres[indexPath.section].genre
 		
-		movieRepository.getEntitySummariesForGenre(genre!, entityType: listType) { (mediaItems, error) -> Void in
-			cell.configureWithMediaItems(mediaItems!)
-		}
-
+        entityRepository.getSummariesForGenre(genre!) { (mediaItems, error) -> Void in
+            cell.configureWithMediaItems(mediaItems!)
+        }
 	}
 	
 	override func collectionView(collectionView: UICollectionView, canFocusItemAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -75,15 +74,19 @@ class PosterCollectionViewController: UICollectionViewController {
 		let controller = segue.destinationViewController as! MovieDetailViewController
 		controller.movie = nil
 		
-		movieRepository.getMovie((cell.representedDataItem?.id?.integerValue)!) { (movie, error) -> Void in
-			controller.movie = movie
-		}
+        // Figure out how to pick the next location , for now .. cheat
+        if (listType == "Movie") {
+            let movieRepository = self.entityRepository as! MovieRepository
+            movieRepository.getMovie((cell.representedDataItem?.id?.integerValue)!) { (movie, error) -> Void in
+                controller.movie = movie
+            }
+        }
 		
 	}
 	
 	// Todo find a way to display a section title
 
-	internal func setTitleAndType(title:String, type:String) {
+	func setTitleAndType(title:String, type:String) {
 		self.title = title
 		self.listType = type
 	}

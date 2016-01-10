@@ -23,11 +23,11 @@ class TabBarViewController: UITabBarController {
 		if let _ = self.sessionAPI.getSid() {
 			
 			moviePosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("PosterCollection") as! PosterCollectionViewController
-			moviePosterCollectionViewController.title = "Movies"
+			moviePosterCollectionViewController.entityRepository = MovieRepository.sharedInstance
 			moviePosterCollectionViewController.setTitleAndType("Movies", type: "Movie")
 			
 			tvPosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("PosterCollection") as! PosterCollectionViewController
-			tvPosterCollectionViewController.title = "TV Programmes"
+			tvPosterCollectionViewController.entityRepository = EpisodeRepository.sharedInstance
 			tvPosterCollectionViewController.setTitleAndType("TV Programmes", type: "Episode")
 
 			settingsViewController = settingsStoryboard.instantiateViewControllerWithIdentifier("Settings") as! SettingsViewController

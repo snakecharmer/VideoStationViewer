@@ -78,7 +78,7 @@ class MovieRepositoryTests: XCTestCase {
     func testGetMovieGenresOnlyReturnsGenresWithMovies() {
         self.setupModel()
         
-        let genres = self.movieRepository!.getGenres("Movie")
+        let genres = self.movieRepository!.getGenres()
         XCTAssertEqual(1, genres.count)
     }
 	
@@ -88,7 +88,7 @@ class MovieRepositoryTests: XCTestCase {
 		
 		self.setupModel()
         
-		self.movieRepository!.getEntitySummariesForGenre("Comedy") { (movies, error) -> Void in
+		self.movieRepository!.getSummariesForGenre("Comedy") { (movies, error) -> Void in
 			
 			if let movieValues = movies {
 				for movie in movieValues {
