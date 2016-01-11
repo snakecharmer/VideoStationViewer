@@ -2,7 +2,7 @@
 //  MediaItem+CoreDataProperties.swift
 //  VideoStationViewer
 //
-//  Created by Zac Tolley on 03/01/2016.
+//  Created by Zac Tolley on 10/01/2016.
 //  Copyright © 2016 Scropt. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -18,13 +18,10 @@ extension MediaItem {
     @NSManaged var containsDetail: NSNumber?
     @NSManaged var duration: NSNumber?
     @NSManaged var fileId: NSNumber?
-    @NSManaged var id: NSNumber?
     @NSManaged var lastWatched: NSNumber?
     @NSManaged var mediaType: String?
     @NSManaged var rating: NSNumber?
     @NSManaged var releaseYear: NSNumber?
-    @NSManaged var summary: String?
-    @NSManaged var title: String?
     @NSManaged var cast: NSSet?
     @NSManaged var directors: NSSet?
     @NSManaged var genres: NSSet?

@@ -1,12 +1,12 @@
 import UIKit
 
-class PosterCollectionViewController: UICollectionViewController {
+class TVShowsViewController: UICollectionViewController {
 	// MARK: Properties
 	
 	private static let minimumEdgePadding = CGFloat(90.0)
-    var entityRepository:EntityRepository!
-	private var genres = [Genre]()
-	private var listType = "Movie"
+	var showRepository:ShowRepository!
+	private var shows = [Show]()
+	private var listType = "Show"
 	
 	// MARK: UIViewController
 	
@@ -14,27 +14,28 @@ class PosterCollectionViewController: UICollectionViewController {
 		super.viewDidLoad()
 		
 		let coreDataHelper = CoreDataHelper.sharedInstance
-		self.entityRepository = MovieRepository(moc: coreDataHelper.managedObjectContext!)
+		self.showRepository = ShowRepository(moc: coreDataHelper.managedObjectContext!)
 		
 		// Make sure their is sufficient padding above and below the content.
 		guard let collectionView = collectionView, layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
 		
-		collectionView.contentInset.top = PosterCollectionViewController.minimumEdgePadding - layout.sectionInset.top
-		collectionView.contentInset.bottom = PosterCollectionViewController.minimumEdgePadding - layout.sectionInset.bottom
+		collectionView.contentInset.top = TVShowsViewController.minimumEdgePadding - layout.sectionInset.top
+		collectionView.contentInset.bottom = TVShowsViewController.minimumEdgePadding - layout.sectionInset.bottom
 	}
 	
 	override func viewWillAppear(animated: Bool) {
-		super.viewWillAppear(animated)
 		
+		super.viewWillAppear(animated)
+		NSLog("View will appear")
 		// Get a list of genres and then reload the collection, which in turn will load the media items for each genre
-		self.genres = entityRepository!.getGenres()
+		self.shows = self.showRepository!.getShows()
 		self.collectionView!.reloadData()
 	}
 	
 	// MARK: UICollectionViewDataSource
 	
 	override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-		return genres.count
+		return shows.count
 	}
 	
 	override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -52,11 +53,10 @@ class PosterCollectionViewController: UICollectionViewController {
 	override func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 		//print("Poster Collection: will display cell \(indexPath)")
 		guard let cell = cell as? PosterStrip else { fatalError("Expected to display a `CollectionViewContainerCell`.") }
-		let genre = genres[indexPath.section].genre
-		
-        entityRepository.getSummariesForGenre(genre!) { (mediaItems, error) -> Void in
-            cell.configureWithMediaItems(mediaItems!)
-        }
+		let show = shows[indexPath.section]
+		let episodes = show.episodes?.allObjects as! [Episode]
+		cell.configureWithMediaItems(episodes)
+
 	}
 	
 	override func collectionView(collectionView: UICollectionView, canFocusItemAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -74,33 +74,35 @@ class PosterCollectionViewController: UICollectionViewController {
 		let controller = segue.destinationViewController as! MovieDetailViewController
 		controller.movie = nil
 		
-        // Figure out how to pick the next location , for now .. cheat
-        if (listType == "Movie") {
-            let movieRepository = self.entityRepository as! MovieRepository
-            movieRepository.getMovie((cell.representedDataItem?.id?.integerValue)!) { (movie, error) -> Void in
-                controller.movie = movie
-            }
-        }
-		
+		// Figure out how to pick the next location , for now .. cheat
+		// get the episode based on the selected cell then call the repository to get it's detail and send it to the target view
+		/*
+		if (listType == "Movie") {
+			let movieRepository = self.entityRepository as! MovieRepository
+			movieRepository.getMovie((cell.representedDataItem?.id?.integerValue)!) { (movie, error) -> Void in
+				controller.movie = movie
+			}
+		}
+		*/
 	}
 	
 	// Todo find a way to display a section title
-
+	
 	func setTitleAndType(title:String, type:String) {
 		self.title = title
 		self.listType = type
 	}
 	
 	override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-
+		
 		switch kind {
-			case UICollectionElementKindSectionHeader:
-				let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "PosterHeaderView", forIndexPath: indexPath) as! PosterHeaderCollectionReusableView
-				headerView.title.text = genres[indexPath.section].genre
-				return headerView
-			default:
-				assert(false, "Unexpected element kind")
+		case UICollectionElementKindSectionHeader:
+			let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "PosterHeaderView", forIndexPath: indexPath) as! PosterHeaderCollectionReusableView
+			headerView.title.text = shows[indexPath.section].title
+			return headerView
+		default:
+			assert(false, "Unexpected element kind")
 		}
 	}
-
+	
 }

@@ -2,8 +2,8 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
 
-	var moviePosterCollectionViewController:PosterCollectionViewController!
-	var tvPosterCollectionViewController:PosterCollectionViewController!
+	var moviePosterCollectionViewController:MovieGenresViewController!
+	var tvPosterCollectionViewController:TVShowsViewController!
 	var searchViewController:UIViewController!
 	var settingsViewController:SettingsViewController!
 
@@ -22,14 +22,8 @@ class TabBarViewController: UITabBarController {
 		
 		if let _ = self.sessionAPI.getSid() {
 			
-			moviePosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("PosterCollection") as! PosterCollectionViewController
-			moviePosterCollectionViewController.entityRepository = MovieRepository.sharedInstance
-			moviePosterCollectionViewController.setTitleAndType("Movies", type: "Movie")
-			
-			tvPosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("PosterCollection") as! PosterCollectionViewController
-			tvPosterCollectionViewController.entityRepository = EpisodeRepository.sharedInstance
-			tvPosterCollectionViewController.setTitleAndType("TV Programmes", type: "Episode")
-
+			moviePosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("MoviePosterCollection") as! MovieGenresViewController
+			tvPosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("TVShowPosterCollection") as! TVShowsViewController
 			settingsViewController = settingsStoryboard.instantiateViewControllerWithIdentifier("Settings") as! SettingsViewController
 			self.setViewControllers([moviePosterCollectionViewController, tvPosterCollectionViewController, settingsViewController], animated: true)
 			

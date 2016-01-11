@@ -1,5 +1,5 @@
 //
-//  Director+CoreDataProperties.swift
+//  Title+CoreDataProperties.swift
 //  VideoStationViewer
 //
 //  Created by Zac Tolley on 10/01/2016.
@@ -12,9 +12,10 @@
 import Foundation
 import CoreData
 
-extension Director {
+extension Title {
 
+    @NSManaged var id: NSNumber?
     @NSManaged var title: String?
-    @NSManaged var media: NSSet?
+    @NSManaged var summary: String?
 
 }

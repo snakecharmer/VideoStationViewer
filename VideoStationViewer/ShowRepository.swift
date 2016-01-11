@@ -30,6 +30,25 @@ final class ShowRepository:EntityRepository {
         return;
         
     }
+	
+	func getShows() -> [Show] {
+		let fetchRequest = NSFetchRequest(entityName: "Show")
+		let descriptor: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+		let sortDescriptors = [descriptor]
+		fetchRequest.sortDescriptors = sortDescriptors
+		
+		var shows = [Show]()
+		
+		do {
+			shows = try moc.executeFetchRequest(fetchRequest) as![Show]
+		} catch let error as NSError {
+			print("Could not fetch \(error), \(error.userInfo)")
+		}
+		
+		return shows
+		
+	}
 
-    
+
+	
 }

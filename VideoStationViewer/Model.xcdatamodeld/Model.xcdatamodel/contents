@@ -18,36 +18,36 @@
         <attribute name="genre" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="media" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MediaItem" inverseName="genres" inverseEntity="MediaItem" syncable="YES"/>
     </entity>
-    <entity name="MediaItem" representedClassName=".MediaItem" isAbstract="YES" syncable="YES">
+    <entity name="MediaItem" representedClassName=".MediaItem" isAbstract="YES" parentEntity="Title" syncable="YES">
         <attribute name="certificate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="containsDetail" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="fileId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="lastWatched" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="mediaType" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="releaseYear" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="cast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CastMember" inverseName="media" inverseEntity="CastMember" syncable="YES"/>
         <relationship name="directors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Director" inverseName="media" inverseEntity="Director" syncable="YES"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="media" inverseEntity="Genre" syncable="YES"/>
     </entity>
     <entity name="Movie" representedClassName=".Movie" parentEntity="MediaItem" syncable="YES"/>
-    <entity name="Show" representedClassName=".Show" syncable="YES">
+    <entity name="Show" representedClassName=".Show" parentEntity="Title" syncable="YES">
+        <relationship name="episodes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Episode" inverseName="show" inverseEntity="Episode" syncable="YES"/>
+    </entity>
+    <entity name="Title" representedClassName=".Title" isAbstract="YES" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="episodes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Episode" inverseName="show" inverseEntity="Episode" syncable="YES"/>
     </entity>
     <elements>
         <element name="CastMember" positionX="-398" positionY="-1251" width="128" height="73"/>
         <element name="Director" positionX="-398" positionY="-1117" width="128" height="73"/>
         <element name="Episode" positionX="-450" positionY="-945" width="128" height="103"/>
         <element name="Genre" positionX="-783" positionY="-1188" width="128" height="73"/>
-        <element name="MediaItem" positionX="-576" positionY="-1267" width="128" height="253"/>
+        <element name="MediaItem" positionX="-576" positionY="-1267" width="128" height="28"/>
         <element name="Movie" positionX="-677" positionY="-916" width="128" height="45"/>
-        <element name="Show" positionX="-234" positionY="-985" width="128" height="103"/>
+        <element name="Show" positionX="-234" positionY="-985" width="128" height="28"/>
+        <element name="Title" positionX="-515" positionY="-1404" width="128" height="28"/>
     </elements>
 </model>

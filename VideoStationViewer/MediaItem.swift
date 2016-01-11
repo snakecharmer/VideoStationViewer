@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class MediaItem: NSManagedObject {
+class MediaItem: Title {
 
     override func awakeFromInsert() {
         super.awakeFromInsert()
