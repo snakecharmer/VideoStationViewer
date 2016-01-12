@@ -10,7 +10,12 @@ class ImageAPI {
 	private let preferences:NSUserDefaults = NSUserDefaults.standardUserDefaults()
 	let httpManager:Alamofire.Manager = Alamofire.Manager()
 
-	func getImage(id: Int, success: ((image: UIImage?, error: NSError?) -> Void)) {
+	func getImage(id: Int, type: String = "Movie", success: ((image: UIImage?, error: NSError?) -> Void)) {
+		
+		var imageType = type.lowercaseString
+		if (imageType == "episode") {
+			imageType = "tvshow_episode"
+		}
 
 		func returnError() {
 			success(image: nil, error:  NSError(domain:"com.scropt", code:1, userInfo:[NSLocalizedDescriptionKey : "Cannot Login."]))
@@ -32,7 +37,7 @@ class ImageAPI {
 			"version": "1",
 			"method": "getimage",
 			"id": "\(id)",
-			"type": "movie"
+			"type": imageType
 		]
 		
 		httpManager.request(.GET, "http://\(hostname):5000/webapi/VideoStation/poster.cgi", parameters: parameters)

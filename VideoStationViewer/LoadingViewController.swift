@@ -26,10 +26,13 @@ class LoadingViewController: UIViewController {
 					let movieImportService = MovieImportService(moc: moc)
 					movieImportService.importMovies({ (total, error) -> Void in
 						
-						let tabBarController = TabBarViewController()
-						self.presentViewController(tabBarController, animated: true, completion: nil)
-						
+						movieImportService.importShows({ (total, error) -> Void in
+							let tabBarController = TabBarViewController()
+							self.presentViewController(tabBarController, animated: true, completion: nil)
+						})
+					
 					})
+					
 				} else {
 					self.showError()
 					return

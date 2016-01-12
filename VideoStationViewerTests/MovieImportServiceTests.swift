@@ -372,9 +372,8 @@ class MovieImportServiceTests: XCTestCase {
 
 					// episode fields populated
 					XCTAssertEqual(1, episode.id!)
-					XCTAssertEqual("Test Title 1", episode.title!)
+					XCTAssertEqual("Tagline 1", episode.title!)
 					XCTAssertEqual("Test Summary 1", episode.summary!)
-					XCTAssertEqual("Tagline 1", episode.tagline!)
 
 				} else {
 					XCTFail()

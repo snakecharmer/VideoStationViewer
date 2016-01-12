@@ -73,17 +73,21 @@ class TVShowsViewController: UICollectionViewController {
 		let cell = sender as! PosterCell
 		let controller = segue.destinationViewController as! MovieDetailViewController
 		controller.movie = nil
+		let mediaType = cell.representedDataItem!.mediaType
 		
 		// Figure out how to pick the next location , for now .. cheat
 		// get the episode based on the selected cell then call the repository to get it's detail and send it to the target view
-		/*
-		if (listType == "Movie") {
-			let movieRepository = self.entityRepository as! MovieRepository
+		
+		// Get the media type being sent and decide how to progres
+		
+		
+		if (mediaType == "Movie") {
+			let movieRepository = MovieRepository.sharedInstance
 			movieRepository.getMovie((cell.representedDataItem?.id?.integerValue)!) { (movie, error) -> Void in
 				controller.movie = movie
 			}
 		}
-		*/
+		
 	}
 	
 	// Todo find a way to display a section title

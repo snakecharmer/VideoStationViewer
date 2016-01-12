@@ -68,7 +68,7 @@
             </objects>
             <point key="canvasLocation" x="3537" y="-2485"/>
         </scene>
-        <!--Movie Genres View Controller-->
+        <!--Movies-->
         <scene sceneID="pZB-6E-hvJ">
             <objects>
                 <collectionViewController storyboardIdentifier="MoviePosterCollection" id="obL-Fx-P7h" customClass="MovieGenresViewController" customModule="VideoStationViewer" customModuleProvider="target" sceneMemberID="viewController">
@@ -169,13 +169,14 @@
                             <outlet property="delegate" destination="obL-Fx-P7h" id="2j7-sC-501"/>
                         </connections>
                     </collectionView>
+                    <tabBarItem key="tabBarItem" title="Movies" id="8bP-TN-qpq"/>
                     <simulatedTabBarMetrics key="simulatedTopBarMetrics"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5dz-Sa-H8E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1205" y="-2490"/>
         </scene>
-        <!--Shows View Controller-->
+        <!--Shows-->
         <scene sceneID="i9z-3d-voU">
             <objects>
                 <collectionViewController storyboardIdentifier="TVShowPosterCollection" id="cVG-jv-NUy" customClass="TVShowsViewController" customModule="VideoStationViewer" customModuleProvider="target" sceneMemberID="viewController">
@@ -275,6 +276,7 @@
                             <outlet property="delegate" destination="cVG-jv-NUy" id="abj-5o-0xa"/>
                         </connections>
                     </collectionView>
+                    <tabBarItem key="tabBarItem" title="Shows" id="gto-C6-N2x"/>
                     <simulatedTabBarMetrics key="simulatedTopBarMetrics"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxx-RE-vRL" userLabel="First Responder" sceneMemberID="firstResponder"/>

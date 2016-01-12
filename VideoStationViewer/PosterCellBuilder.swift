@@ -36,7 +36,7 @@ class PosterCellBuilder {
 			guard !processImageOperation.cancelled else { return }
 			
 			
-			self.imageRepository.getImage((mediaItem.id?.integerValue)!) { (image, error) -> Void in
+			self.imageRepository.getImage((mediaItem.id?.integerValue)!, type: mediaItem.mediaType!) { (image, error) -> Void in
 				
 				// Store the processed image in the cache.
 				NSOperationQueue.mainQueue().addOperationWithBlock {

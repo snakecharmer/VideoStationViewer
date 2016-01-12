@@ -23,6 +23,9 @@ class TabBarViewController: UITabBarController {
 		if let _ = self.sessionAPI.getSid() {
 			
 			moviePosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("MoviePosterCollection") as! MovieGenresViewController
+			moviePosterCollectionViewController.title = "Movies"
+			
+			
 			tvPosterCollectionViewController = listDetailStoryboard.instantiateViewControllerWithIdentifier("TVShowPosterCollection") as! TVShowsViewController
 			settingsViewController = settingsStoryboard.instantiateViewControllerWithIdentifier("Settings") as! SettingsViewController
 			self.setViewControllers([moviePosterCollectionViewController, tvPosterCollectionViewController, settingsViewController], animated: true)

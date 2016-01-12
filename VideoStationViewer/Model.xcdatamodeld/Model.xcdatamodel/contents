@@ -11,7 +11,6 @@
     <entity name="Episode" representedClassName=".Episode" parentEntity="MediaItem" syncable="YES">
         <attribute name="episode" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="season" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="tagline" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="show" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="episodes" inverseEntity="Show" syncable="YES"/>
     </entity>
     <entity name="Genre" representedClassName=".Genre" syncable="YES">
@@ -24,7 +23,6 @@
         <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="fileId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="lastWatched" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="mediaType" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="releaseYear" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="cast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CastMember" inverseName="media" inverseEntity="CastMember" syncable="YES"/>
@@ -37,17 +35,18 @@
     </entity>
     <entity name="Title" representedClassName=".Title" isAbstract="YES" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="mediaType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="CastMember" positionX="-398" positionY="-1251" width="128" height="73"/>
         <element name="Director" positionX="-398" positionY="-1117" width="128" height="73"/>
-        <element name="Episode" positionX="-450" positionY="-945" width="128" height="103"/>
+        <element name="Episode" positionX="-450" positionY="-945" width="128" height="88"/>
         <element name="Genre" positionX="-783" positionY="-1188" width="128" height="73"/>
-        <element name="MediaItem" positionX="-576" positionY="-1267" width="128" height="28"/>
+        <element name="MediaItem" positionX="-576" positionY="-1267" width="128" height="193"/>
         <element name="Movie" positionX="-677" positionY="-916" width="128" height="45"/>
-        <element name="Show" positionX="-234" positionY="-985" width="128" height="28"/>
-        <element name="Title" positionX="-515" positionY="-1404" width="128" height="28"/>
+        <element name="Show" positionX="-234" positionY="-963" width="128" height="28"/>
+        <element name="Title" positionX="-522" positionY="-1485" width="128" height="103"/>
     </elements>
 </model>
