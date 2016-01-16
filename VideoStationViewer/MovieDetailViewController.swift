@@ -9,7 +9,7 @@ class MovieDetailViewController: UIViewController {
 	
 	let movieRepository = MovieRepository.sharedInstance
 	
-	var movie:Movie? {
+	var mediaItem:MediaItem? {
 		didSet {
 			if self.isViewLoaded() {
 				self.layout()
@@ -21,19 +21,19 @@ class MovieDetailViewController: UIViewController {
 	var avController:AVPlayerViewController!
 	
 	override func viewDidLoad() {
-		if self.movie != nil {
+		if self.mediaItem != nil {
 			layout()
 		}
 	}
 	
 	func layout() {
-		if let movieValue = self.movie {
+		if let mediaItemValue = self.mediaItem {
 			
-			self.movieTitle.text = movieValue.title
-			self.summary.text = movieValue.summary
+			self.movieTitle.text = mediaItemValue.title
+			self.summary.text = mediaItemValue.summary
 			self.setupVideo()
 			
-			movieValue.getImage { (image, error) -> Void in
+			mediaItemValue.getImage { (image, error) -> Void in
 				self.imageView.image = image
 			}
 		}
@@ -46,7 +46,7 @@ class MovieDetailViewController: UIViewController {
 	}
 	
 	func setupVideo() {
-		if let url = self.movie?.getMovieUrl() {
+		if let url = self.mediaItem?.getMovieUrl() {
 			let avPlayer = AVPlayer(URL: url)
 			let aViewController = AVPlayerViewController()
 				

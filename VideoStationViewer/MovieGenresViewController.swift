@@ -73,13 +73,13 @@ class MovieGenresViewController: UICollectionViewController {
 		
 		let cell = sender as! PosterCell
 		let controller = segue.destinationViewController as! MovieDetailViewController
-		controller.movie = nil
+		controller.mediaItem = nil
 		
         // Figure out how to pick the next location , for now .. cheat
         if (listType == "Movie") {
             let movieRepository = self.entityRepository as! MovieRepository
             movieRepository.getMovie((cell.representedDataItem?.id?.integerValue)!) { (movie, error) -> Void in
-                controller.movie = movie
+                controller.mediaItem = movie
             }
         }
 		
