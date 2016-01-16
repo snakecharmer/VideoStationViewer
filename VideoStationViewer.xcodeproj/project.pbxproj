@@ -320,11 +320,11 @@
 		78BCE1621BDECA6800D90237 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				78BCE1681BDED41800D90237 /* MovieGenresViewController.swift */,
 				78BCE1641BDED23400D90237 /* PosterStrip.swift */,
 				78204B3B1BDD8027003DCBF3 /* PosterCell.swift */,
 				78BCE16C1BDED4C600D90237 /* PosterCellBuilder.swift */,
 				784E83A11C0D0A5500E62070 /* PosterHeaderCollectionReusableView.swift */,
+				78BCE1681BDED41800D90237 /* MovieGenresViewController.swift */,
 				783B78B41C428D600040AEB8 /* TVShowsViewController.swift */,
 			);
 			name = List;

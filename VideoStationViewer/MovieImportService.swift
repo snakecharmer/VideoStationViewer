@@ -176,6 +176,8 @@ class MovieImportService {
 		episode.title = sourceEpisode.tagline
 		episode.summary = sourceEpisode.summary
 		episode.fileId = sourceEpisode.fileId
+        episode.season = sourceEpisode.season
+        episode.episode = sourceEpisode.episode
 		
 		if let synologyEpisodeGenres = sourceEpisode.genre {
 			var genreArray = [Genre]()
