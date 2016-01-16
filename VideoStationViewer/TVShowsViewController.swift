@@ -54,8 +54,10 @@ class TVShowsViewController: UICollectionViewController {
 		//print("Poster Collection: will display cell \(indexPath)")
 		guard let cell = cell as? PosterStrip else { fatalError("Expected to display a `CollectionViewContainerCell`.") }
 		let show = shows[indexPath.section]
-		let episodes = show.episodes?.allObjects as! [Episode]
-		cell.configureWithMediaItems(episodes)
+		let episodes = show.sortedEpisodes()
+        if let episodesValue = episodes {
+            cell.configureWithMediaItems(episodesValue)
+        }
 
 	}
 	
