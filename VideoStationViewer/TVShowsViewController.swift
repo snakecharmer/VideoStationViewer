@@ -82,7 +82,6 @@ class TVShowsViewController: UICollectionViewController {
             controller.mediaItem = episode
         }
 		
-		
 	}
 	
 	// Todo find a way to display a section title
