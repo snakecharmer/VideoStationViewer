@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/ztolley/VideoStationViewer.png?label=ready&title=Ready)](https://waffle.io/ztolley/VideoStationViewer)
 # VideoStationViewer
 A TVOS Native application to allow someone to link to their Synology NAS and watch their movies.
 
