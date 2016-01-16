@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/ztolley/VideoStationViewer.svg?branch=master)](https://travis-ci.org/ztolley/VideoStationViewer)
+[![Stories in Ready](https://badge.waffle.io/ztolley/VideoStationViewer.png?label=ready&title=Ready)](https://waffle.io/ztolley/VideoStationViewer)
+
 # VideoStationViewer
 A TVOS Native application to allow someone to link to their Synology NAS and watch their movies.
 
