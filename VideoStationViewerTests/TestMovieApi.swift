@@ -61,6 +61,8 @@ class TestMovieAPI:MovieAPI {
 		episode1.summary = "Test Summary 1"
 		episode1.tagline = "Tagline 1"
 		episode1.showId = id
+        episode1.season = 1
+        episode1.episode = 2
 		
 		
 		var episode2 = SynologyMediaItem()
@@ -69,6 +71,8 @@ class TestMovieAPI:MovieAPI {
 		episode2.summary = "Test Summary 2"
 		episode2.tagline = "Tagline 2"
 		episode2.showId = id
+        episode2.season = 1
+        episode2.episode = 3
 		
 		
 		var episode3 = SynologyMediaItem()
@@ -77,6 +81,8 @@ class TestMovieAPI:MovieAPI {
 		episode3.summary = "Test Summary 3"
 		episode3.tagline = "Tagline 3"
 		episode3.showId = id
+        episode3.season = 2
+        episode3.episode = 1
 		
 		success(episodes: [episode1, episode2, episode3], error: nil)
 		

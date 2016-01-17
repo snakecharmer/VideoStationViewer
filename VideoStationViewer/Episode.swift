@@ -12,11 +12,4 @@ import CoreData
 
 class Episode: MediaItem {
 
-	func getImage(success: ((image: UIImage?, error: NSError?) -> Void)) {
-		if let idValue = id {
-			let imageApi = ImageAPI.sharedInstance
-			imageApi.getImage(idValue.integerValue, type: "episode", success: success)
-		}
-	}
-
 }

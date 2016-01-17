@@ -12,6 +12,18 @@ import CoreData
 
 class Show: Title {
 
-// Insert code here to add functionality to your managed object subclass
+    func sortedEpisodes() -> [Episode]? {
+        
+        if let episodeValues = self.episodes {
+            let seasonSort: NSSortDescriptor = NSSortDescriptor(key: "season", ascending: true)
+            let episodeSort: NSSortDescriptor = NSSortDescriptor(key: "episode", ascending: true)
+            let titleSort: NSSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+            
+            return episodeValues.sortedArrayUsingDescriptors([seasonSort, episodeSort, titleSort]) as? [Episode]
+        }
+        
+        return nil
+        
+    }
 
 }

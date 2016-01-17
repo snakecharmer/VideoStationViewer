@@ -66,7 +66,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fb2-nL-hn3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3537" y="-2485"/>
+            <point key="canvasLocation" x="3589" y="-1697"/>
         </scene>
         <!--Movies-->
         <scene sceneID="pZB-6E-hvJ">
@@ -229,6 +229,7 @@
                                                     <connections>
                                                         <outlet property="imageView" destination="Flu-s2-CYb" id="JLx-2z-vA9"/>
                                                         <outlet property="label" destination="vcE-Bi-vaK" id="tuo-9Z-1lR"/>
+                                                        <segue destination="RPp-SY-iyF" kind="show" id="qf0-ol-3pR"/>
                                                     </connections>
                                                 </collectionViewCell>
                                             </cells>
@@ -281,70 +282,10 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxx-RE-vRL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1141" y="-1074"/>
-        </scene>
-        <!--Movie Detail View Controller-->
-        <scene sceneID="JsI-1Q-f7w">
-            <objects>
-                <viewController id="CeP-FW-tCX" customClass="MovieDetailViewController" customModule="VideoStationViewer" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="t6a-Bq-t0E"/>
-                        <viewControllerLayoutGuide type="bottom" id="hOm-Cg-lIz"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="gAU-Uy-MIz">
-                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A8Q-Qk-cOy">
-                                <rect key="frame" x="21" y="79" width="400" height="600"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="400" id="loo-02-A6O"/>
-                                    <constraint firstAttribute="height" constant="600" id="xdL-00-4JK"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ucO-Mk-S5Y">
-                                <rect key="frame" x="145" y="703" width="152" height="86"/>
-                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Play">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="focused">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="showFullScreen:" destination="CeP-FW-tCX" eventType="primaryActionTriggered" id="Et3-uo-EZl"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nAg-RP-7LI">
-                                <rect key="frame" x="458" y="79" width="680" height="91"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U3V-J0-cuG">
-                                <rect key="frame" x="458" y="178" width="1442" height="408"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="0.26274509800000001" green="0.062745098040000002" blue="0.43529411759999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="A8Q-Qk-cOy" firstAttribute="centerY" secondItem="gAU-Uy-MIz" secondAttribute="centerY" constant="-161" id="PWB-1U-zFa"/>
-                            <constraint firstItem="A8Q-Qk-cOy" firstAttribute="centerX" secondItem="gAU-Uy-MIz" secondAttribute="centerX" constant="-739" id="oHS-f0-L6g"/>
-                        </constraints>
-                    </view>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <connections>
-                        <outlet property="imageView" destination="A8Q-Qk-cOy" id="GJe-0y-9Bq"/>
-                        <outlet property="movieTitle" destination="nAg-RP-7LI" id="PtT-re-Q7u"/>
-                        <outlet property="summary" destination="U3V-J0-cuG" id="g0L-9F-olB"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mh4-N0-GBf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3609" y="-1037"/>
+            <point key="canvasLocation" x="1205" y="-1074"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="qf0-ol-3pR"/>
+    </inferredMetricsTieBreakers>
 </document>

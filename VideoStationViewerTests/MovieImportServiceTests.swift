@@ -356,7 +356,7 @@ class MovieImportServiceTests: XCTestCase {
 	}
 	
 	func testImportShowGetsEpisodeDetails() {
-		let expectation = self.expectationWithDescription("Get show fields")
+		let expectation = self.expectationWithDescription("Get episode fields")
 		self.movieImportService.importShows { (total, error) -> Void in
 			
 			let fetchRequest = NSFetchRequest(entityName: "Show")
@@ -374,6 +374,8 @@ class MovieImportServiceTests: XCTestCase {
 					XCTAssertEqual(1, episode.id!)
 					XCTAssertEqual("Tagline 1", episode.title!)
 					XCTAssertEqual("Test Summary 1", episode.summary!)
+                    XCTAssertEqual(1, episode.season)
+                    XCTAssertEqual(2, episode.episode)
 
 				} else {
 					XCTFail()
